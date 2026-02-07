@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melox FST 201 Pre-Test</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
+
+/* ---------- LOGIN PAGE ---------- */
+#loginPage{
+ height:100vh;display:flex;justify-content:center;align-items:center;
+ background:#1b5e20;
+}
+#loginBox{
+ background:#fff;width:90%;max-width:380px;
+ padding:25px;border-radius:14px;text-align:center;
+}
+#loginBox img{width:80px;margin-bottom:10px}
+#loginBox h2{color:#1b5e20;margin-bottom:15px}
+#loginBox input{
+ width:100%;padding:12px;font-size:16px;
+ border-radius:8px;border:1px solid #ccc;margin-bottom:15px;
+}
+#loginBox button{
+ width:100%;padding:12px;border:none;
+ background:#c62828;color:#fff;font-weight:bold;
+ border-radius:8px;font-size:16px;cursor:pointer;
+}
+
+/* ---------- PRE-TEST PAGE ---------- */
+#preTestPage{display:none;flex-direction:column;height:100vh}
+#preTestHeader{
+ background:#1b5e20;color:#fff;padding:10px;
+ display:flex;align-items:center;gap:8px;
+}
+#preTestHeader img{width:45px}
+#headerCenter{flex:1;text-align:center}
+#sectionTitle{font-weight:bold;font-size:16px}
+#questionCount{font-size:14px}
+#timer{
+ background:#ffeb3b;color:#000;
+ padding:6px 12px;border-radius:20px;
+ font-weight:bold;font-size:15px;
+}
+#submitBtn{
+ background:#c62828;color:#fff;border:none;
+ padding:8px 12px;border-radius:8px;
+ font-weight:bold;cursor:pointer;
+}
+
+#preTestBody{flex:1;padding:16px;overflow-y:auto}
+#questionBox{
+ background:#fff;padding:20px;border-radius:14px;
+ box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+.option{
+ display:block;padding:12px;margin-top:10px;
+ border:1px solid #ddd;border-radius:10px;cursor:pointer;
+}
+.option input{margin-right:8px}
+
+/* ---------- NAV BUTTONS ---------- */
+#nav{
+ display:flex;gap:10px;margin-top:15px;
+}
+#nav button{
+ flex:1;padding:12px;border:none;border-radius:10px;
+ background:#1b5e20;color:#fff;font-weight:bold;
+ cursor:pointer;
+}
+
+/* ---------- QUESTION GRID ---------- */
+#grid{
+ display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;
+}
+#grid button{
+ width:42px;height:42px;border-radius:6px;
+ border:1px solid #ccc;background:#fff;
+ font-weight:bold;cursor:pointer;
+}
+#grid .answered{background:#c62828;color:#fff}
+#grid .current{border:3px solid #1b5e20}
+
+/* ---------- RESULTS PAGE ---------- */
+#resultPage{
+ display:none;min-height:100vh;
+ padding:20px;background:#f9fbe7;
+}
+#resultPage img{
+ width:70px;display:block;margin:0 auto 10px;
+}
+.result-score{
+ text-align:center;font-size:38px;font-weight:bold;
+ color:#1b5e20;text-shadow:0 0 10px #ffeb3b;
+}
+.result-grade{
+ text-align:center;font-size:28px;font-weight:bold;
+ color:#c62828;margin-bottom:20px;
+}
+.review{
+ background:#fff;padding:15px;border-radius:12px;
+ margin-bottom:12px;
+}
+.correct{color:green;font-weight:bold}
+.wrong{color:red;font-weight:bold}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+ <div id="loginBox">
+  <img src="https://i.imgur.com/7PeWEGa.jpeg" alt="School Logo">
+  <h2>Melox FST 201<br>Pre-Test</h2>
+  <input type="text" id="department" placeholder="Enter Department">
+  <button onclick="startTest()">Start Pre-Test</button>
+ </div>
+</div>
+
+<!-- PRE-TEST PAGE -->
+<div id="preTestPage">
+ <div id="preTestHeader">
+ <img src="https://i.imgur.com/7PeWEGa.jpeg" alt="School Logo">
+  <div id="headerCenter">
+   <div id="sectionTitle"></div>
+   <div id="questionCount"></div>
+  </div>
+  <div>
+   <div id="timer">15:00</div>
+   <button id="submitBtn" onclick="submitTest()">Submit</button>
+  </div>
+ </div>
+
+ <div id="preTestBody">
+  <div id="questionBox">
+   <p id="questionText"></p>
+   <div id="options"></div>
+  </div>
+
+  <div id="nav">
+   <button onclick="prevQuestion()">Previous</button>
+   <button onclick="nextQuestion()">Next</button>
+  </div>
+
+  <div id="grid"></div>
+ </div>
+</div>
+
+<!-- RESULTS PAGE -->
+<div id="resultPage">
+<img src="https://i.imgur.com/7PeWEGa.jpeg" alt="School Logo">
+ <div class="result-score" id="score"></div>
+ <div class="result-grade" id="grade"></div>
+ <div id="review"></div>
+</div>
+
+<script>
+/* ---------- FST 201 QUESTIONS (74) ---------- */
+const questions = [
+
+/* ===== SECTION A: BASIC FOOD SCIENCE CONCEPTS ===== */
+{q:"Food is any substance consumed to provide nutritional support for the body.",o:["True","False"],a:0},
+{q:"Fruits are ripened ovaries of plants.",o:["True","False"],a:0},
+{q:"Maize, wheat, rice, etc. are called:",o:["Legumes","Cereals","Tubers","Fruits"],a:1},
+{q:"Beans, peas, lentils, etc. are called:",o:["Cereals","Legumes","Roots","Fruits"],a:1},
+{q:"About how many plant species are cultivated for food?",o:["500","1000","2000","5000"],a:2},
+{q:"Which of the following is NOT often pressed to produce oil?",o:["Sunflower","Rapeseed","Legumes","Sesame"],a:2},
+
+/* ===== SECTION B: FOODS OF ANIMAL ORIGIN & MICROBIOLOGY ===== */
+{q:"Foods of animal origin are rich in macro and micro nutrients.",o:["True","False"],a:0},
+{q:"Proteins from animal foods contain essential amino acids.",o:["True","False"],a:0},
+{q:"Foods of animal origin are susceptible to microbial contamination.",o:["True","False"],a:0},
+{q:"Nutritive microbes in microflora are called probiotics.",o:["True","False"],a:0},
+{q:"Bifidobacterium and Lactobacilli are common probiotics.",o:["True","False"],a:0},
+{q:"Lactobacilli thrive in environments rich in sugars and starches.",o:["True","False"],a:0},
+{q:"Probiotics confer health benefits when administered adequately.",o:["True","False"],a:0},
+{q:"Bacteria mainly involved in fermented foods are:",o:["Lactobacilli","Lactobacilli and Pediococcus spp","Mycotoxin","Virus"],a:1},
+{q:"Spoilage in packaged beer is often due to:",o:["Yeast","Bacteria","Mould","Virus"],a:1},
+
+/* ===== SECTION C: CARBOHYDRATES ===== */
+{q:"Which is NOT another name for glucose?",o:["Blood sugar","Dextrose","Grape sugar","Glucose"],a:3},
+{q:"Fructose is the sweetest known sugar.",o:["True","False"],a:0},
+{q:"Sucrose is table sugar obtained from sugar cane and sugar beet.",o:["True","False"],a:0},
+{q:"Lactose is the major sugar in milk.",o:["True","False"],a:0},
+{q:"The most common polysaccharide and major component of plant cell wall is:",o:["Starch","Glucose","Cellulose","Glycogen"],a:2},
+{q:"Starch consists of:",o:["Amylose and amylase","Amylose and amylopectin","Dextrose and amylopectin","Dextrose and amylase"],a:1},
+{q:"In plants, starch is an energy reserve.",o:["True","False"],a:0},
+{q:"In animals, energy is stored in liver and muscles as:",o:["ATP","Glucose","Glycogen","Fat"],a:2},
+{q:"Natural starch is a mixture of amylose and amylopectin.",o:["True","False"],a:0},
+{q:"Pectins cement plant cells together.",o:["True","False"],a:0},
+{q:"Pectins are mainly used for:",o:["Coiling","Gelling jams and preserves","Juice clarification","Fermentation"],a:1},
+{q:"A three-dimensional polymeric network that traps water is called:",o:["Gel","Pectin","Cellulose","Gum"],a:0},
+{q:"Which cannot form a gel?",o:["Pectin","Cellulose","Gum","Amylase"],a:3},
+{q:"Polysaccharides are added to foods for all EXCEPT:",o:["Increase fibre","Thickening","Chemical modification","High water affinity"],a:3},
+
+/* ===== SECTION D: PROTEINS ===== */
+{q:"Protein shape and function depend on the:",o:["Peptide bond","Sequence of amino acids","Glycosidic bond","Fatty acids"],a:1},
+{q:"Which is NOT a function of protein?",o:["Growth","Repair","Energy","Produces fat and oil"],a:3},
+{q:"Which is NOT a protein source?",o:["Meat and egg","Milk and legumes","Beans milk egg","None of the above"],a:3},
+{q:"An important element in amino acids besides C, H and O is:",o:["Sulphur","Nitrogen","Iron","Calcium"],a:1},
+{q:"Essential amino acids cannot be synthesized by the body.",o:["True","False"],a:0},
+{q:"Non-essential amino acids can be synthesized by the body.",o:["True","False"],a:0},
+{q:"Conditional amino acids are required during illness or stress.",o:["True","False"],a:0},
+{q:"Protein denaturation is disruption of native protein structure.",o:["True","False"],a:0},
+{q:"Protein Efficiency Ratio (PER) measures protein quality.",o:["True","False"],a:0},
+
+/* ===== SECTION E: LIPIDS & WATER ===== */
+{q:"Fat-soluble vitamins include A, D, E and K.",o:["True","False"],a:0},
+{q:"Lipids may be fats or oils.",o:["True","False"],a:0},
+{q:"The general formula of fatty acids is R-COOH.",o:["True","False"],a:0},
+{q:"Water activity measures free water available for reactions.",o:["True","False"],a:0},
+{q:"Vitamin responsible for growth, healthy skin and hair is:",o:["Vitamin A","Vitamin C","Vitamin D","Vitamin K"],a:0},
+
+/* ===== SECTION F: VITAMINS ===== */
+{q:"Deficiency of vitamin B6, B12 and folic acid causes:",o:["Anaemia","Scurvy","Rickets","Clotting"],a:0},
+{q:"Excess vitamin C may cause stomach irritation.",o:["True","False"],a:0},
+{q:"Low folate in pregnancy causes spina bifida.",o:["True","False"],a:0},
+{q:"Organ richest in folic acid is:",o:["Kidney","Liver","Pancreas","Heart"],a:1},
+{q:"Deficiency of vitamin A causes night blindness.",o:["True","False"],a:0},
+{q:"Rickets and osteomalacia are caused by deficiency of:",o:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"],a:3},
+{q:"Rickets occurs in children while osteomalacia occurs in adults.",o:["True","False"],a:0},
+{q:"Vitamin that is NOT an antioxidant is:",o:["A","C","E","D"],a:3},
+{q:"Vitamin important for heart, blood and circulation is:",o:["Vitamin K","Vitamin A","Vitamin C","Vitamin E"],a:3},
+{q:"Vitamin responsible for blood clotting is Vitamin K.",o:["True","False"],a:0},
+{q:"Vitamin K is produced in the:",o:["Small intestine","Large intestine","Pancreas","Liver"],a:1},
+
+/* ===== SECTION G: MINERALS & NUTRITION ===== */
+{q:"Calcium supports bones while zinc supports immunity.",o:["True","False"],a:0},
+{q:"Nutritional status measures how diet meets body needs.",o:["True","False"],a:0},
+{q:"Malnutrition includes deficiency or excess of nutrients.",o:["True","False"],a:0},
+{q:"NOT a method of nutritional assessment:",o:["Growth","Dietary intake","Deficiency diseases","Metabolic rate"],a:3},
+
+/* ===== SECTION H: FOOD SECURITY ===== */
+{q:"Food security means access to safe and nutritious food always.",o:["True","False"],a:0},
+{q:"A complete food system includes production, processing, distribution, marketing, acquisition and consumption.",o:["True","False"],a:0},
+{q:"Food security is NOT based on:",o:["Availability","Use","Access","Sanitation"],a:3},
+{q:"Food insecurity exists when people lack access to food.",o:["True","False"],a:0}
+
+];
+
+/* ---------- SECTION LOGIC ---------- */
+function getSection(i){
+ if(i < 6) return "SECTION A – BASIC FOOD SCIENCE";
+ if(i < 15) return "SECTION B – ANIMAL FOODS & MICROBIOLOGY";
+ if(i < 29) return "SECTION C – CARBOHYDRATES CARBOHYDRATES";
+ if(i < 38) return "SECTION D – PROTEINS";
+ if(i < 43) return "SECTION E – LIPIDS & WATER";
+ if(i < 54) return "SECTION F – VITAMINS";
+ if(i < 59) return "SECTION G – MINERALS & NUTRITION";
+ return "SECTION H – FOOD SECURITY";
+}
+
+let current=0, answers=[], time=900, timer;
+
+/* ---------- START ---------- */
+function startTest(){
+ if(!department.value.trim()) return alert("Enter department");
+ loginPage.style.display="none";
+ preTestPage.style.display="flex";
+ loadGrid();
+ showQuestion();
+ startTimer();
+}
+
+/* ---------- TIMER ---------- */
+function startTimer(){
+ timer=setInterval(()=>{
+  let m=Math.floor(time/60);
+  let s=time%60;
+  timerEl.textContent=`${m}:${s<10?"0":""}${s}`;
+  time--;
+  if(time<0) submitTest();
+ },1000);
+}
+
+/* ---------- SHOW QUESTION ---------- */
+function showQuestion(){
+ sectionTitle.textContent=getSection(current);
+ questionCount.textContent=`Question ${current+1} of ${questions.length}`;
+ questionText.textContent=questions[current].q;
+
+ let html="";
+ questions[current].o.forEach((opt,i)=>{
+  html+=`
+  <label class="option">
+   <input type="radio" name="opt"
+    ${answers[current]==i?"checked":""}
+    onclick="selectAnswer(${i})">
+   ${opt}
+  </label>`;
+ });
+ options.innerHTML=html;
+ updateGrid();
+}
+
+/* ---------- ANSWER ---------- */
+function selectAnswer(i){
+ answers[current]=i;
+ updateGrid();
+}
+
+/* ---------- GRID ---------- */
+function loadGrid(){
+ let html="";
+ for(let i=0;i<questions.length;i++){
+  html+=`<button onclick="goToQuestion(${i})">${i+1}</button>`;
+ }
+ grid.innerHTML=html;
+}
+function updateGrid(){
+ const btns=grid.querySelectorAll("button");
+ btns.forEach((b,i)=>{
+  b.classList.remove("answered","current");
+  if(answers[i]!==undefined) b.classList.add("answered");
+  if(i===current) b.classList.add("current");
+ });
+}
+
+/* ---------- NAV ---------- */
+function nextQuestion(){if(current<questions.length-1){current++;showQuestion();}}
+function prevQuestion(){if(current>0){current--;showQuestion();}}
+function goToQuestion(i){current=i;showQuestion();}
+
+/* ---------- SUBMIT ---------- */
+function submitTest(){
+ clearInterval(timer);
+ preTestPage.style.display="none";
+ resultPage.style.display="block";
+
+ let score=0, reviewHTML="";
+ questions.forEach((q,i)=>{
+  let correct=q.a===answers[i];
+  if(correct) score++;
+  reviewHTML+=`
+  <div class="review">
+   <b>Q${i+1}: ${q.q}</b><br>
+   <span class="${correct?"correct":"wrong"}">
+    Your answer: ${q.o[answers[i]]||"No answer"}
+   </span><br>
+   <span class="correct">Correct: ${q.o[q.a]}</span>
+  </div>`;
+ });
+
+ scoreEl.textContent=`${score} / ${questions.length}`;
+
+ let grade="F";
+ if(score>=70) grade="A";
+ else if(score>=60) grade="B";
+ else if(score>=50) grade="C";
+ else if(score>=40) grade="D";
+
+ gradeEl.textContent=`Grade: ${grade}`;
+ review.innerHTML=reviewHTML;
+}
+
+/* ---------- SHORTCUTS ---------- */
+const loginPage=document.getElementById("loginPage");
+const preTestPage=document.getElementById("preTestPage");
+const resultPage=document.getElementById("resultPage");
+const department=document.getElementById("department");
+const sectionTitle=document.getElementById("sectionTitle");
+const questionCount=document.getElementById("questionCount");
+const questionText=document.getElementById("questionText");
+const options=document.getElementById("options");
+const grid=document.getElementById("grid");
+const timerEl=document.getElementById("timer");
+const scoreEl=document.getElementById("score");
+const gradeEl=document.getElementById("grade");
+const review=document.getElementById("review");
+</script>
+
+</body>
+</html>
