@@ -1,478 +1,837 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Melox Pre-Test Portal</title>
+<title>BCH 201</title>
 
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
 
-/* ---------- COURSE PAGE ---------- */
-#coursePage{
- height:100vh;display:flex;justify-content:center;align-items:center;
- background:#1b5e20;
-}
-.courseBox{
- background:#fff;width:90%;max-width:380px;
- padding:30px;border-radius:14px;text-align:center;
-}
-.courseBox img{width:80px;margin-bottom:10px}
-.courseBox h2{color:#1b5e20;margin-bottom:20px}
-.courseBtn{
- width:100%;padding:14px;margin-top:10px;
- border:none;background:#c62828;color:#fff;
- font-weight:bold;border-radius:10px;
- font-size:16px;cursor:pointer;
+/* ===== RESET ===== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ---------- LOGIN PAGE ---------- */
+body{
+background:#ffffff;
+color:#000;
+}
+
+/* ===== LOGIN PAGE ===== */
 #loginPage{
- display:none;height:100vh;justify-content:center;align-items:center;
- background:#1b5e20;
-}
-#loginBox{
- background:#fff;width:90%;max-width:380px;
- padding:25px;border-radius:14px;text-align:center;
-}
-#loginBox img{width:80px;margin-bottom:10px}
-#loginBox h2{color:#1b5e20;margin-bottom:15px}
-#loginBox input{
- width:100%;padding:12px;font-size:16px;
- border-radius:8px;border:1px solid #ccc;margin-bottom:15px;
-}
-#loginBox button{
- width:100%;padding:12px;border:none;
- background:#c62828;color:#fff;font-weight:bold;
- border-radius:8px;font-size:16px;cursor:pointer;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-/* ---------- PRE-TEST PAGE ---------- */
-#preTestPage{display:none;flex-direction:column;height:100vh}
-#preTestHeader{
- background:#1b5e20;color:#fff;padding:10px;
- display:flex;align-items:center;gap:8px;
+.loginBox{
+width:90%;
+max-width:400px;
+text-align:center;
 }
-#preTestHeader img{width:45px}
-#headerCenter{flex:1;text-align:center}
-#sectionTitle{font-weight:bold;font-size:16px}
-#questionCount{font-size:14px}
+
+.loginBox img{
+width:90px;
+margin-bottom:15px;
+}
+
+.loginBox h1{
+font-size:26px;
+font-weight:bold;
+margin-bottom:20px;
+color:#0b3d2e;
+}
+
+.loginBox input{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+margin-bottom:15px;
+font-size:15px;
+}
+
+.loginBox button{
+width:100%;
+padding:12px;
+background:#0b3d2e;
+color:#fff;
+border:none;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* ===== TEST PAGE ===== */
+#testPage{
+display:none;
+min-height:100vh;
+padding:25px;
+max-width:950px;
+margin:auto;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:2px solid #0b3d2e;
+padding-bottom:10px;
+margin-bottom:25px;
+}
+
+header h2{
+font-size:20px;
+font-weight:bold;
+color:#0b3d2e;
+}
+
 #timer{
- background:#ffeb3b;color:#000;
- padding:6px 12px;border-radius:20px;
- font-weight:bold;font-size:15px;
+font-weight:bold;
+color:#b71c1c;
+font-size:18px;
 }
+
+.question{
+margin-bottom:22px;
+line-height:1.8;
+font-size:16px;
+}
+
+.blank{
+border:none;
+border-bottom:2px solid #000;
+outline:none;
+min-width:150px;
+font-size:16px;
+padding:2px 4px;
+}
+
+.blank:focus{
+border-bottom:2px solid #0b3d2e;
+}
+
 #submitBtn{
- background:#c62828;color:#fff;border:none;
- padding:8px 12px;border-radius:8px;
- font-weight:bold;cursor:pointer;
+margin-top:20px;
+padding:14px;
+width:100%;
+background:#0b3d2e;
+color:#fff;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
 
-#preTestBody{flex:1;padding:16px;overflow-y:auto}
-#questionBox{
- background:#fff;padding:20px;border-radius:14px;
- box-shadow:0 5px 15px rgba(0,0,0,.15);
-}
-.option{
- display:block;padding:12px;margin-top:10px;
- border:1px solid #ddd;border-radius:10px;cursor:pointer;
-}
-.option input{margin-right:8px}
-
-#nav{display:flex;gap:10px;margin-top:15px}
-#nav button{
- flex:1;padding:12px;border:none;border-radius:10px;
- background:#1b5e20;color:#fff;font-weight:bold;
- cursor:pointer;
-}
-
-#grid{
- display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;
-}
-#grid button{
- width:42px;height:42px;border-radius:6px;
- border:1px solid #ccc;background:#fff;
- font-weight:bold;cursor:pointer;
-}
-#grid .answered{background:#c62828;color:#fff}
-#grid .current{border:3px solid #1b5e20}
-
-/* ---------- RESULTS PAGE ---------- */
+/* ===== RESULT PAGE ===== */
 #resultPage{
- display:none;min-height:100vh;
- padding:20px;background:#f9fbe7;
+display:none;
+min-height:100vh;
+padding:30px;
+max-width:950px;
+margin:auto;
 }
-#resultPage img{
- width:70px;display:block;margin:0 auto 10px;
+
+.resultScore{
+font-size:30px;
+font-weight:bold;
+margin-bottom:10px;
+color:#0b3d2e;
 }
-.result-score{
- text-align:center;font-size:38px;font-weight:bold;
- color:#1b5e20;text-shadow:0 0 10px #ffeb3b;
+
+.resultGrade{
+font-size:20px;
+margin-bottom:25px;
 }
-.result-grade{
- text-align:center;font-size:28px;font-weight:bold;
- color:#c62828;margin-bottom:20px;
+
+.reviewItem{
+margin-bottom:15px;
+padding-bottom:10px;
+border-bottom:1px solid #ddd;
 }
-.review{
- background:#fff;padding:15px;border-radius:12px;
- margin-bottom:12px;
+
+.correct{
+color:#0b6623;
 }
-.correct{color:green;font-weight:bold}
-.wrong{color:red;font-weight:bold}
+
+.wrong{
+color:#b71c1c;
+}
+
+.correctAnswer{
+font-size:14px;
+color:#333;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- COURSE SELECTION -->
-<div id="coursePage">
- <div class="courseBox">
-  <img src="https://i.imgur.com/7PeWEGa.jpeg">
-  <h2>Select Course</h2>
-  <button class="courseBtn" onclick="selectCourse('FAT 201')">FAT 201</button>
-  <button class="courseBtn" onclick="selectCourse('APH 201')">APH 201</button>
-  
- </div>
-</div>
-
-<!-- LOGIN PAGE -->
+<!-- LOGIN -->
 <div id="loginPage">
- <div id="loginBox">
-  <img src="https://i.imgur.com/7PeWEGa.jpeg">
-  <h2 id="courseTitle"></h2>
-  <input type="text" id="department" placeholder="Enter Department">
-  <button onclick="startTest()">Start Pre-Test</button>
- </div>
-</div>
-
-<!-- PRE TEST PAGE -->
-<div id="preTestPage">
- <div id="preTestHeader">
-  <img src="https://i.imgur.com/7PeWEGa.jpeg">
-  <div id="headerCenter">
-   <div id="sectionTitle"></div>
-   <div id="questionCount"></div>
-  </div>
-  <div>
-   <div id="timer">20:00</div>
-   <button id="submitBtn" onclick="submitTest()">Submit</button>
-  </div>
- </div>
-
- <div id="preTestBody">
-  <div id="questionBox">
-   <p id="questionText"></p>
-   <div id="options"></div>
-  </div>
-
-  <div id="nav">
-   <button onclick="prevQuestion()">Previous</button>
-   <button onclick="nextQuestion()">Next</button>
-  </div>
-
-  <div id="grid"></div>
- </div>
-</div>
-
-<!-- RESULTS PAGE -->
-<div id="resultPage">
+<div class="loginBox">
 <img src="https://i.imgur.com/7PeWEGa.jpeg">
- <div class="result-score" id="score"></div>
- <div class="result-grade" id="grade"></div>
- <div id="review"></div>
+<h1>BCH 201</h1>
+<input type="text" id="department" placeholder="Enter Department">
+<button onclick="startTest()">Start</button>
+</div>
+</div>
+
+<!-- TEST PAGE -->
+<div id="testPage">
+<header>
+<h2>BCH 201</h2>
+<div id="timer">60:00</div>
+</header>
+
+<div id="questionsContainer"></div>
+
+<button id="submitBtn" onclick="submitTest()">Submit</button>
+</div>
+
+<!-- RESULT PAGE -->
+<div id="resultPage">
+<div class="resultScore" id="score"></div>
+<div class="resultGrade" id="grade"></div>
+<div id="review"></div>
 </div>
 
 <script>
 
-/* =============================
-   PASTE QUESTIONS HERE
-============================= */
+/* ===== TIMER (1 HOUR) ===== */
+let time = 3600;
+let timerInterval;
 
-const FAT_QUESTIONS = [
- /* ===== SECTION A: BASIC AQUACULTURE & FISH BIOLOGY (1–15) ===== */
-{q:"Osmo-regulatory function in fish is performed by the:", o:["Gills","Skin","Kidneys","Fins"], a:1},
-{q:"Types of aquaculture are:", o:["Monoculture and polyculture","Homoculture and polyculture","Monoculture and homoculture","Polyculture and heteraculture"], a:1},
-{q:"African lady fish feed mostly on … in the brackish water.", o:["Plankton","Fish","Algae","Insects"], a:1},
-{q:"……………… involves the cultivation of freshwater and saltwater organisms under controlled conditions.", o:["Capture fisheries","Aquaculture","Artisanal fishing","Industrial fishing"], a:1},
-{q:"Fishes are used as raw material for ……….", o:["Fillets","Fertilizer","Feed","All of the above"], a:0},
-{q:"………… is morphological feature that distinguishes a fish from other animals.", o:["Scales","Fins","Gills","Operculum"], a:1},
-{q:"Hermaphroditism can pay off in situations where one sex is more likely to ……", o:["Migrate","Dominate","Spawn","Feed"], a:1},
-{q:"………… in fish reduces the risk of cardiovascular disease, hypertension and arteriosclerosis.", o:["Omega-3 fatty acid","Vitamin D","Protein","Calcium"], a:0},
-{q:"………… are examples of bony fish shapes.", o:["Compressiform and anguilliform","Fusiform and depressiform","All of the above","None of the above"], a:2},
-{q:"Another name for bony fish is called ………", o:["Chondrichthyes","Osteichthyes","Agnatha","Cyclostomata"], a:1},
-{q:"………… constitute the most significant fishery sector in Nigeria.", o:["Industrial fisheries","Artisanal fisheries","Aquaculture","Recreational fisheries"], a:1},
-{q:"………… is the newly hatched young of an oviparous fish.", o:["Fry","Larvae","Fingerling","Juvenile"], a:1},
-{q:"………… are the two types of viviparity.", o:["Histotrophic and hemotrophic","Lecithotrophic and matrotrophic","Ovoviviparous and viviparous","None of the above"], a:0},
-{q:"………… are forms of interventions in fish farming to enhance production.", o:["Capture methods","Aquaculture","Stock enhancement","All of the above"], a:1},
-{q:"………… are examples of fish body shapes.", o:["Fusiform, compressiform, anguilliform, taeniform, depressiform","Only fusiform and compressiform","Only anguilliform and depressiform","None of the above"], a:0},
-
-/* ===== SECTION B: FISHERIES & POND MANAGEMENT (16–30) ===== */
-{q:"Capture fisheries entails ……… for fishes in their natural habitats.", o:["Farming","Hunting","Breeding","Stocking"], a:1},
-{q:"………… is a permanent water holding facility that requires a bulk of the initial capital.", o:["Cage","Pond","Tank","Raceway"], a:1},
-{q:"The time it would take to recover capital put into fish farming would depend on the level of ………", o:["Stocking","Management","Feeding","Marketing"], a:1},
-{q:"………… is keeping or protecting from change, loss or damage.", o:["Exploitation","Conservation","Harvesting","Overfishing"], a:1},
-{q:"Fish egg is generally surrounded by ………", o:["Chorion","Zona pellucida","Vitelline membrane","All of the above"], a:0},
-{q:"………… is a fishery management plan.", o:["Open season","Closed season","Open fishery","Closed fishery"], a:1},
-{q:"Paired fin reduced to limb-like filament in family:", o:["Channidae","Protopteridae","Clariidae","Cichlidae"], a:1},
-{q:"Fresh water bodies in Nigeria have …………… salinity level.", o:["Less than 1.0 PPT","Less than 0.5 PPT","More than 0.5 PPT","More than 1.0 PPT"], a:1},
-{q:"Aquatic fauna of food values includes the following except:", o:["Cladocea","Algae","Periwinkle","Crustaceans"], a:1},
-{q:"A representative of the family Channidae is ……………", o:["Parachanna obscura","Parachanna gariepinus","Tilapia obscura","Obscura tilapia"], a:0},
-{q:"Biomass is the:", o:["Harvesting of fish","Volume of species given at a time","Percentage of drying fish","Discarded species"], a:1},
-{q:"Aquarium fishes are ……………", o:["Recreational fishes","Big fishes","Ornamental fishes","Aesthetic fishes"], a:2},
-{q:"Fish families of food values in Nigeria waters include the following except:", o:["Ariidae","Alestidae","Clariidae","Cladocae"], a:3},
-{q:"Which of this is not needed for plant to produce food?", o:["Solar radiation","Temperature","Oxygen and nutrient availability","Wind"], a:3},
-{q:"Basic needs for fish farming include the following except:", o:["Sunlight","Soil type","Legal ownership of land","Accessibility"], a:0},
-
-/* ===== SECTION C: FISH BEHAVIOUR, MIGRATION & MARINE ECOSYSTEMS (31–50) ===== */
-{q:"Schooling behavior in fish is characterized by:", o:["Random dispersion","Bunching with equal spacing and same direction","Aggressive territorial display","Solitary hovering"], a:1},
-{q:"Anadromous migration means:", o:["Freshwater fish migrating to sea to spawn","Marine fish migrating to freshwater to spawn","Migration within freshwater only","Daily vertical movement"], a:1},
-{q:"Catadromous fish like eels migrate from:", o:["Sea to freshwater for spawning","Freshwater to sea for spawning","River to lake only","Deep sea to surface"], a:1},
-{q:"Potamodromous migration occurs:", o:["Between sea and freshwater","Within freshwater habitats only","Within marine environments only","Vertically in water column"], a:1},
-{q:"The Sargasso Sea is the spawning destination for:", o:["Salmon","European and American eels","Tuna","Mahi-mahi"], a:1},
-{q:"The main purpose of fish migration is to find:", o:["Only food","Suitable feeding, spawning, or refuge grounds","Only resting places","Only climatic changes"], a:1},
-{q:"Vertical migration in fish is typically:", o:["Seasonal north-south movement","Daily movement up and down the water column","Permanent movement to deeper water","Shoreward movement to land"], a:1},
-{q:"The brain region controlling smell in fish is the:", o:["Cerebellum","Olfactory bulbs","Optic lobes","Medulla oblongata"], a:1},
-{q:"The cerebellum in fish is primarily responsible for:", o:["Thinking and memory","Coordinating muscle movements","Controlling heart rate","Processing smell"], a:1},
-{q:"The medulla oblongata in fish controls:", o:["Vision","Breathing, heartbeat, and gill movements","Memory storage","Smell detection"], a:1},
-{q:"Estuaries are highly productive because:", o:["They have constant high salinity","Nutrients from river and ocean mix in sheltered areas","They are very deep","They have no oxygen"], a:1},
-{q:"Salt marshes are characterized by:", o:["Deep water with no tides","Regular flooding by tides and low-oxygen soil","Coral polyp growth","Open ocean conditions"], a:1},
-{q:"Mangrove forests are important because:", o:["They provide nesting sites for birds and habitat for fish/crabs","They are found in cold regions","They have no root systems","They lack any animal life"], a:0},
-{q:"Coral reefs are built primarily by:", o:["Sponges and seaweeds","Coral polyps secreting calcium carbonate","Crustaceans and mollusks","Deep-sea vents"], a:1},
-{q:"The euphotic zone in the open ocean is:", o:["The dark deep-sea zone","The sunlit upper zone with photosynthesis","The twilight mesopelagic zone","The aphotic midnight zone"], a:1},
-{q:"Organisms in the aphotic zone often rely on:", o:["Photosynthesis","Chemosynthesis at hydrothermal vents","Abundant sunlight","High oxygen levels"], a:1},
-{q:"Camouflage behavior in fish is mainly used to:", o:["Attract mates","Protect from predators or hunt prey","Form schools","Signal aggression"], a:1},
-{q:"Advertising coloration in fish is used to:", o:["Hide from predators","Send signals to other animals (e.g., warning or courtship)","Blend with environment","Defend territory only"], a:1},
-{q:"The lateral line system in fish detects:", o:["Light and color","Sound, pressure changes, and water movement","Chemical odors","Temperature changes"], a:1},
-{q:"Homeostasis in fish refers to:", o:["Rapid growth","Maintaining internal balance despite external changes","Only feeding behavior","Only migration"], a:1},
-];
-
-const APH_QUESTIONS = [
-   /* ===== SECTION A: BASIC STRUCTURAL ORGANIZATION & TISSUES ===== */
-{q:"The correct order of structural organization is:", o:["Tissue > Cell > Organ > System","Cell > Tissue > Organ > System","Organ > Cell > Tissue > System","System > Organ > Tissue > Cell"], a:1},
-{q:"Epithelial tissue primarily:", o:["Conducts impulses","Covers and protects surfaces","Contracts","Binds tissues"], a:1},
-{q:"Connective tissue:", o:["Supports and binds tissues","Conducts impulses","Contracts","Covers"], a:0},
-{q:"Muscular tissue is responsible for:", o:["Conduction","Protection","Contraction and movement","Binding"], a:2},
-{q:"Nervous tissue:", o:["Produces hormones","Conducts impulses","Contracts","Protects"], a:1},
-{q:"Epithelial tissue is classified into:", o:["Simple and stratified epithelium","Cuboidal and nervous","Connective and muscular","Bone and cartilage"], a:0},
-{q:"Simple squamous epithelium is:", o:["Thick","Plate-like and thin","Cube-shaped","Column-shaped"], a:1},
-{q:"Simple cuboidal epithelium is found in:", o:["Brain","Ducts of glands","Heart","Skin"], a:1},
-{q:"Simple columnar epithelium occurs in:", o:["Digestive tract","Bone","Muscle","Blood"], a:0},
-{q:"Stratified squamous epithelium occurs in:", o:["Skin","Liver","Kidney","Brain"], a:0},
-{q:"Transitional epithelium is found in:", o:["Heart","Stomach","Urinary bladder","Lung"], a:2},
-
-/* ===== SECTION B: CONNECTIVE TISSUE & SUPPORTING STRUCTURES ===== */
-{q:"Reticular tissue forms framework of:", o:["Muscle","Lymphatic organs","Skin","Brain"], a:1},
-{q:"Adipose tissue stores:", o:["Water","Protein","Fat","Oxygen"], a:2},
-{q:"Cartilage cells are called:", o:["Osteocytes","Chondrocytes","Myocytes","Neurons"], a:1},
-{q:"Bone cells are called:", o:["Myocytes","Osteocytes","Neutrophils","Platelets"], a:1},
-{q:"Blood is:", o:["Muscular tissue","Connective tissue","Nervous tissue","Epithelial tissue"], a:1},
-
-/* ===== SECTION C: NERVOUS & MUSCLE TISSUE + CELL BASICS ===== */
-{q:"Functional unit of nervous system:", o:["Neuron","Osteon","Myofibril","Alveolus"], a:0},
-{q:"Powerhouse of the cell:", o:["Ribosome","Mitochondria","Lysosome","Nucleus"], a:1},
-{q:"Control center of the cell:", o:["Cytoplasm","Nucleus","Ribosome","Golgi body"], a:1},
-{q:"Protein synthesis occurs in:", o:["Lysosome","Ribosome","Nucleus","Centriole"], a:1},
-{q:"Basic unit of life:", o:["Tissue","Cell","Organ","System"], a:1},
-{q:"Study of tissues is:", o:["Cytology","Histology","Anatomy","Physiology"], a:1},
-{q:"Study of cells:", o:["Histology","Cytology","Pathology","Embryology"], a:1},
-
-/* ===== SECTION D: MUSCLE TYPES & BODY SYSTEMS OVERVIEW ===== */
-{q:"Involuntary muscle:", o:["Skeletal","Cardiac","Voluntary","Smooth (voluntary)"], a:1},
-{q:"Voluntary muscle:", o:["Skeletal muscle","Cardiac","Smooth","Blood"], a:0},
-{q:"Smooth muscle is found in:", o:["Bones","Walls of internal organs","Brain","Skin"], a:1},
-{q:"The largest organ of the body:", o:["Liver","Skin","Heart","Brain"], a:1},
-{q:"Longest bone in the body:", o:["Tibia","Femur","Humerus","Radius"], a:1},
-
-/* ===== SECTION E: BLOOD, CIRCULATION & RESPIRATION ===== */
-{q:"RBC is produced in:", o:["Kidney","Bone marrow","Liver","Spleen"], a:1},
-{q:"Normal human body temperature:", o:["35°C","36°C","37°C","38°C"], a:2},
-{q:"Number of chambers in the heart:", o:["2","3","4","5"], a:2},
-{q:"Organ that pumps blood:", o:["Lung","Heart","Liver","Kidney"], a:1},
-{q:"Largest artery:", o:["Pulmonary artery","Aorta","Femoral artery","Carotid"], a:1},
-{q:"Gas exchanged in lungs:", o:["Nitrogen","Oxygen and Carbon dioxide","Hydrogen","Methane"], a:1},
-{q:"Blood group universal donor:", o:["A","B","AB","O negative"], a:3},
-{q:"Universal recipient:", o:["O","A","AB positive","B"], a:2},
-{q:"The red pigment in blood is:", o:["Myoglobin","Hemoglobin","Melanin","Keratin"], a:1},
-{q:"The normal pulse rate of an adult is approximately:", o:["40 bpm","60–100 bpm","120 bpm","150 bpm"], a:1},
-
-/* ===== SECTION F: ENDOCRINE, DIGESTION & EXCRETION ===== */
-{q:"Hormones are secreted by:", o:["Exocrine glands","Endocrine glands","Sweat glands","Sebaceous glands"], a:1},
-{q:"Largest gland:", o:["Thyroid","Liver","Pancreas","Adrenal"], a:1},
-{q:"Digestion of food begins in the:", o:["Stomach","Mouth","Small intestine","Large intestine"], a:1},
-{q:"The enzyme in saliva is:", o:["Pepsin","Amylase","Lipase","Trypsin"], a:1},
-{q:"The organ responsible for detoxification is:", o:["Kidney","Liver","Heart","Lung"], a:1},
-{q:"The pancreas produces:", o:["Insulin","Bile","Saliva","Thyroxine"], a:0},
-{q:"The organ that stores bile is the:", o:["Liver","Gallbladder","Pancreas","Kidney"], a:1},
-{q:"The main function of the large intestine is:", o:["Digestion","Absorption of water","Hormone production","Oxygen exchange"], a:1},
-{q:"The hormone that regulates blood sugar is:", o:["Adrenaline","Insulin","Thyroxine","Estrogen"], a:1},
-
-/* ===== SECTION G: SENSORY ORGANS, BONES & MISCELLANEOUS ===== */
-{q:"The largest part of the brain is:", o:["Cerebellum","Medulla","Cerebrum","Pons"], a:2},
-{q:"The main organ of respiration is the:", o:["Heart","Lung","Liver","Brain"], a:1},
-{q:"The organ that filters blood is:", o:["Liver","Kidney","Lung","Spleen"], a:1},
-{q:"The smallest bone in the body is:", o:["Femur","Stapes","Radius","Ulna"], a:1},
-{q:"The joint that allows movement in all directions is:", o:["Hinge joint","Pivot joint","Ball and socket joint","Gliding joint"], a:2},
-{q:"The sense organ for taste is the:", o:["Nose","Tongue","Ear","Skin"], a:1},
-{q:"The largest lymphatic organ is the:", o:["Kidney","Liver","Spleen","Pancreas"], a:2},
-{q:"White blood cells help in:", o:["Oxygen transport","Immunity and defense","Clotting","Digestion"], a:1},
-{q:"Platelets are responsible for:", o:["Immunity","Clotting of blood","Oxygen transport","Hormone secretion"], a:1},
-{q:"The number of bones in an adult human is:", o:["200","206","210","196"], a:1},
-{q:"The part of the brain that controls balance is:", o:["Cerebrum","Cerebellum","Medulla","Pons"], a:1},
-{q:"The medulla oblongata controls:", o:["Thinking","Voluntary movement","Breathing and heartbeat","Memory"], a:2},
-{q:"The strongest muscle in the body (by force) is:", o:["Biceps","Masseter","Quadriceps","Triceps"], a:1},
-{q:"The organ responsible for vision is the:", o:["Ear","Nose","Eye","Skin"], a:2},
-{q:"The fluid inside joints is called:", o:["Plasma","Synovial fluid","Lymph","Serum"], a:1},
-{q:"The hormone responsible for growth is:", o:["Insulin","Growth hormone","Thyroxine","Progesterone"], a:1},
-{q:"The main organ of the endocrine system is the:", o:["Liver","Pituitary gland","Lung","Spleen"], a:1},
-{q:"The main function of red blood cells is:", o:["Immunity","Oxygen transport","Clotting","Hormone transport"], a:1},
-{q:"The heart is located in the:", o:["Abdomen","Pelvic cavity","Thoracic cavity","Cranial cavity"], a:2},
-{q:"The diaphragm helps in:", o:["Digestion","Breathing","Circulation","Excretion"], a:1},
-{q:"The smallest functional unit of bone is:", o:["Nephron","Osteon","Sarcomere","Axon"], a:1},
-{q:"The main function of the skin is:", o:["Hormone secretion","Protection","Digestion","Respiration"], a:1},
-{q:"The appendix is attached to the:", o:["Small intestine","Large intestine (cecum)","Stomach","Liver"], a:1},
-{q:"The organ that produces sperm in males is the:", o:["Penis","Testis","Prostate","Urethra"], a:1},
-{q:"The organ that produces ova in females is the:", o:["Uterus","Ovary","Cervix","Vagina"], a:1},
-{q:"The normal pH of blood is approximately:", o:["6.0","7.4","8.5","5.5"], a:1},
-{q:"The largest part of the respiratory system is the:", o:["Trachea","Lung","Bronchi","Larynx"], a:1},
-{q:"The voice box is the:", o:["Pharynx","Larynx","Trachea","Bronchus"], a:1},
-{q:"The main function of the kidney is:", o:["Digestion","Filtration and excretion","Respiration","Circulation"], a:1},
-{q:"The organ responsible for pumping oxygenated blood to the body is the:", o:["Right atrium","Left ventricle","Right ventricle","Left atrium"], a:1},
-{q:"Homeostasis means:", o:["Growth","Balance of internal environment","Movement","Respiration"], a:1},
-];
-
-/* ============================= */
-
-let selectedCourse="";
-let questions=[];
-let current=0, answers=[], time=1200, timer;
-
-/* COURSE SELECT */
-function selectCourse(course){
- selectedCourse=course;
- coursePage.style.display="none";
- loginPage.style.display="flex";
- courseTitle.textContent=course+" Pre-Test";
-}
-
-/* START TEST */
-function startTest(){
- if(!department.value.trim()) return alert("Enter department");
-
- questions = selectedCourse==="FAT 201" ? FAT_QUESTIONS : APH_QUESTIONS;
-
- if(questions.length===0) return alert("No questions added yet.");
-
- loginPage.style.display="none";
- preTestPage.style.display="flex";
-
- loadGrid();
- showQuestion();
- startTimer();
-}
-
-/* TIMER */
 function startTimer(){
- timer=setInterval(()=>{
-  let m=Math.floor(time/60);
-  let s=time%60;
-  timerEl.textContent=`${m}:${s<10?"0":""}${s}`;
-  time--;
-  if(time<0) submitTest();
- },1000);
+timerInterval = setInterval(()=>{
+time--;
+let min = Math.floor(time/60);
+let sec = time%60;
+document.getElementById("timer").innerText =
+`${min}:${sec<10?"0"+sec:sec}`;
+if(time<=0){
+clearInterval(timerInterval);
+submitTest();
+}
+},1000);
 }
 
-/* SHOW QUESTION */
-function showQuestion(){
- questionCount.textContent=`Question ${current+1} of ${questions.length}`;
- questionText.textContent=questions[current].q;
-
- let html="";
- questions[current].o.forEach((opt,i)=>{
-  html+=`
-  <label class="option">
-   <input type="radio" name="opt"
-    ${answers[current]==i?"checked":""}
-    onclick="selectAnswer(${i})">
-   ${opt}
-  </label>`;
- });
- options.innerHTML=html;
- updateGrid();
+function startTest(){
+document.getElementById("loginPage").style.display="none";
+document.getElementById("testPage").style.display="block";
+startTimer();
+loadQuestions();
 }
 
-function selectAnswer(i){ answers[current]=i; updateGrid(); }
+const questions = [
 
-function loadGrid(){
- let html="";
- for(let i=0;i<questions.length;i++){
-  html+=`<button onclick="goToQuestion(${i})">${i+1}</button>`;
- }
- grid.innerHTML=html;
+/* ================= MERGED QUESTIONS ================= */
+
+/* ---------- AMINO ACIDS ---------- */
+
+{
+text:`1. ______ are building blocks of protein`,
+answers:["amino acid"]
+},
+
+{
+text:`2. An amino acid contains both ______ and ______`,
+answers:["amino group","carboxyl group"]
+},
+
+{
+text:`3. An alpha amino acid consists of a central carbon atom called ______`,
+answers:["alpha carbon"]
+},
+
+{
+text:`4. The R group is often referred to as ______`,
+answers:["side chain"]
+},
+
+{
+text:`5. The two mirror image forms are called ______ and ______`,
+answers:["l isomer","d isomer","l-amino","d-amino","D-amino acids","L-amino acids"]
+},
+
+{
+text:`6. ______ are constituents of protein`,
+answers:["amino acid","protein"]
+},
+
+{
+text:`7. ______ reflects the loss of the elements of water when one amino acid is joined to another`,
+answers:["residue"]
+},
+
+{
+text:`8. Differentiate between L-amino acid and D-amino acid`,
+answers:["left","right","protein","antibiotics"]
+},
+
+{
+text:`9. How many amino acids are commonly found as residues in proteins? ______`,
+answers:["20"]
+},
+
+{
+text:`10. Amino acids are classified into ______ types based on ______ and ______`,
+answers:["5","polarity","charge"]
+},
+
+{
+text:`11. ______ is the simplest amino acid`,
+answers:["glycine"]
+},
+
+{
+text:`12. Mention the non-polar aliphatic amino acids`,
+answers:["glycine","alanine","proline"]
+},
+
+{
+text:`13. Mention the branched chain amino acids`,
+answers:["valine","isoleucine","leucine"]
+},
+
+{
+text:`14. Mention the aromatic amino acids`,
+answers:["phenylalanine","tyrosine","tryptophan"]
+},
+
+{
+text:`15. Which amino acid has a ring-like structure?`,
+answers:["aromatic","proline"]
+},
+
+{
+text:`16. Between tryptophan and phenylalanine, which is more polar? ______`,
+answers:["tryptophan"]
+},
+
+{
+text:`17. Mention the aliphatic polar uncharged amino acids`,
+answers:["asparagine","glutamine","serine","threonine"]
+},
+
+{
+text:`18. Mention the sulphur containing amino acids`,
+answers:["cysteine","methionine"]
+},
+
+{
+text:`19. Cysteine and methionine contain ______`,
+answers:["sulfur","sulphur"]
+},
+
+{
+text:`20. Cystine is present in ______`,
+answers:["blood"]
+},
+
+{
+text:`21. The formation of two cysteine molecules gives ______`,
+answers:["cystine"]
+},
+
+{
+text:`22. Mention the positively charged R group amino acids`,
+answers:["lysine","histidine","arginine"]
+},
+
+{
+text:`23. Mention the negatively charged R group amino acids`,
+answers:["aspartate","glutamate"]
+},
+
+{
+text:`24. An amino acid with no ionizable R group is electrically neutral at pH. This is called ______`,
+answers:["zwitterion"]
+},
+
+{
+text:`25. A tetrahedral carbon atom with four distinct constituents is said to be ______`,
+answers:["chiral"]
+},
+
+{
+text:`26. Where can L-amino acids and D-amino acids be found?`,
+answers:["protein","antibiotic"]
+},
+
+{
+text:`27. The ability of proteins to absorb ultraviolet light is due to the presence of ______`,
+answers:["tryptophan"]
+},
+
+{
+text:`28. What is deamination?`,
+answers:["removal","amino group","keto acid"]
+},
+
+{
+text:`29. Differentiate between a polypeptide and a protein`,
+answers:["peptide bond","folded","functional"]
+},
+
+{
+text:`30. What are the isomers of amino acids and what are natural amino acids?`,
+answers:["l isomer","d isomer","l-amino"]
+},
+
+/* ---------- PROTEIN STRUCTURE ---------- */
+
+{
+text:`31. ______ are the most abundant biological macromolecules`,
+answers:["proteins"]
+},
+
+{
+text:`32. How are proteins formed?`,
+answers:["peptide bond","carboxyl","amino group"]
+},
+
+{
+text:`33. The lifetime of a peptide bond in aqueous solution without catalyst is about ______`,
+answers:["1000"]
+},
+
+{
+text:`34. A series of amino acids joined by peptide bonds forms a ______`,
+answers:["polypeptide"]
+},
+
+{
+text:`35. Each amino acid unit in a polypeptide is called ______`,
+answers:["residue"]
+},
+
+{
+text:`36. Peptides made of small numbers of amino acids are called ______`,
+answers:["oligopeptide","peptide"]
+},
+
+{
+text:`37. All molecules with chiral centre are ______`,
+answers:["optically active"]
+},
+
+{
+text:`38. Mention the levels of protein structure`,
+answers:["primary","secondary","tertiary","quaternary"]
+},
+
+{
+text:`39. ______ refers to amino acid sequence of a protein`,
+answers:["primary structure"]
+},
+
+{
+text:`40. Example of primary structure`,
+answers:["angiotensin"]
+},
+
+{
+text:`41. ______ refers to arrangement of amino acids close together`,
+answers:["secondary structure"]
+},
+
+{
+text:`42. ______ refers to arrangement of amino acids far apart`,
+answers:["tertiary structure"]
+},
+
+{
+text:`43. What maintains primary structure?`,
+answers:["peptide bond"]
+},
+
+{
+text:`44. Enzyme responsible for protein digestion in stomach`,
+answers:["pepsin"]
+},
+
+{
+text:`45. Action of pepsin`,
+answers:["digest"]
+},
+
+{
+text:`46. Proteins are made up of ______`,
+answers:["amino acid"]
+},
+
+{
+text:`47. Mention functions of proteins`,
+answers:["enzyme","transport","storage","immune","structural"]
+},
+
+{
+text:`48. Expand ASP-ARG-VAL-TYR-ILE-HIS-PRO-PHE`,
+answers:["aspartate","arginine","valine","tyrosine","isoleucine","histidine","proline","phenylalanine"]
+},
+
+{
+text:`49. Generally proteins contain between ______ and ______ subunits`,
+answers:["2","6"]
+},
+
+{
+text:`50. Define homodimers and heterodimers`,
+answers:["same","different"]
+},
+
+/* ---------- NUCLEOTIDES ---------- */
+
+{
+text:`51. ______ are polymeric units of nucleotides`,
+answers:["nucleic acids"]
+},
+
+{
+text:`52. ______ are the monomer units of nucleic acids`,
+answers:["nucleotides"]
+},
+
+{
+text:`53. Components of nucleotides`,
+answers:["nitrogenous","pentose","phosphate"]
+},
+
+{
+text:`54. Molecule without phosphate group is called ______`,
+answers:["nucleoside"]
+},
+
+{
+text:`55. Nitrogenous bases are ______ and ______`,
+answers:["purine","pyrimidine"]
+},
+
+{
+text:`56. Examples of purines`,
+answers:["adenine","guanine"]
+},
+
+{
+text:`57. Examples of pyrimidines`,
+answers:["cytosine","thymine","uracil"]
+},
+
+{
+text:`58. Adenine and guanine have ______ ring structure`,
+answers:["2"]
+},
+
+{
+text:`59. Pentose contains ______ carbon atoms`,
+answers:["5"]
+},
+
+{
+text:`60. ______ links nitrogenous base to pentose sugar`,
+answers:["n-glycosidic"]
+},
+
+{
+text:`61. Bond linking sugar and phosphate`,
+answers:["ester"]
+},
+
+{
+text:`62. ______ links two nucleotides together`,
+answers:["phosphodiester"]
+},
+
+{
+text:`63. Found in both RNA and DNA`,
+answers:["adenine","guanine","cytosine"]
+},
+
+{
+text:`64. Found only in RNA`,
+answers:["uracil"]
+},
+
+{
+text:`65. Found only in DNA`,
+answers:["thymine"]
+},
+
+{
+text:`66. Bond between adenine and thymine`,
+answers:["double"]
+},
+
+{
+text:`67. Amino acid required for purine and pyrimidine synthesis`,
+answers:["glycine"]
+},
+
+{
+text:`68. Bond between guanine and cytosine`,
+answers:["triple"]
+},
+
+{
+text:`69. If 5' is GCCATCT, then 3' is ______`,
+answers:["cggtaga"]
+},
+
+/* ---------- MERGED BLOCK FROM YOUR 35 QUESTIONS ---------- */
+
+{
+text:`70. The type of the bond in sucrose is ____________________`,
+answers:["glycosidic bond"]
+},
+
+{
+text:`71. Proteoglycans is made up of ____________________ and ____________________`,
+answers:["protein", "glycosaminoglycans(GAGs)"]
+},
+
+{
+text:`72. Give an example of ketotriose ____________________`,
+answers:["dihydroxyacetone"]
+},
+
+{
+text:`73. Polysaccharides can be ____________________ or ____________________`,
+answers:["homo", "heteropolysaccharides"]
+},
+
+{
+text:`74. Draw a structure of galactose`,
+answers:["check your manual"]
+},
+
+{
+text:`75. The products of glucose reduction is ____________________ and its oxidation is ____________________`,
+answers:["sorbitol", "gluconic acid"]
+},
+
+{
+text:`76. ____________________ and ____________________ are the functional groups of an amino acids`,
+answers:["amino group", "carboxyl group"]
+},
+
+{
+text:`77. The three amino acids with net positive charge at physiological pH are ____________________, ____________________ and ____________________`,
+answers:["lysine", "arginine", "histidine"]
+},
+
+{
+text:`78. Peptide bonds are formed between the ____________________ group of one amino acid and the ____________________ group of the second amino acids`,
+answers:["carboxyl group", "amino group"]
+},
+
+{
+text:`79. The two stereoisomers of amino acids are ____________________ and ____________________`,
+answers:["D-amino acids","L-amino acids"]
+},
+
+{
+text:`80. List four forces controlling protein structure ____________________, ____________________, ____________________ and ____________________`,
+answers:["hydrogen bonds","ionic bonds","hydrophobic interactions","disulfide bonds"]
+},
+
+{
+text:`81. The function of the nucleus is ______________________________________________`,
+answers:["control of cell activities and storage of genetic material"]
+},
+
+{
+text:`82. A solution is basic when ______________________________________________`,
+answers:["[OH–]> [H+]"]
+},
+
+{
+text:`83. What is the pH when the hydroxyl ion concentration is 1 × 10⁻⁹ M ____________________`,
+answers:["5"]
+},
+
+{
+text:`84. HA is an acid. What are the products when it reacts with H₂O ____________________`,
+answers:["H₃O⁺", "A⁻"]
+},
+
+{
+text:`85. A buffer is made of ____________________ and ____________________`,
+answers:["a weak acid and its conjugate base","or weak base and conjugate acid"]
+},
+
+{
+text:`86. A base is a ______________________________________________`,
+answers:["proton acceptor"]
+},
+
+{
+text:`87. Underline any pair that will give an ideal buffer: HF and NaF, NaCl and HCl, CH₃COOH and CH₃COOK`,
+answers:["HF and NaF","CH3COOH and CH3COOK"]
+},
+
+{
+text:`88. In eukaryotic cell, Mitochondrial generate the ____________________ by the process of ____________________`,
+answers:["ATP","oxidative phosphorylation"]
+},
+
+{
+text:`89. ____________________ is a large complex of RNA and protein molecules where protein synthesis takes place`,
+answers:["ribosome"]
+},
+
+{
+text:`90. The lysosome contains ____________________ enzymes; which function is to ____________________`,
+answers:["hydrolytic enzymes","digest cellular waste, worn-out organelles and foreign materials"]
+},
+
+{
+text:`91. Lysosome and peroxisomes are often called the suicide bag because ____________________`,
+answers:["they have the ability to detonate the cell"]
+},
+
+{
+text:`92. Differentiate between mitosis and meiosis`,
+answers:["Mitosis occurs in somatic cells, produces two genetically identical daughter cells; Meiosis occurs in germ cells, produces four genetically different daughter cells"]
+},
+
+{
+text:`93. Give name to the compound: CH₃ (CH₂)₄ CH=CHCH₂CH=CHCH₂CH=CHCH₂CH=CH (CH₂)₃ COOH`,
+answers:["arachidonic acid"]
+},
+
+{
+text:`94. List 5 classes of lipids based on their structural function (1) ____________________ (2) ____________________ (3) ____________________ (4) ____________________ (5) ____________________`,
+answers:["fatty acid","triacylglycerols","phospholipids","glycolipids","steroids"]
+},
+
+{
+text:`95. Draw the structure of 1 palmitoyl, 2 stearoyl, 3 linoleoyl glycerol`,
+answers:["check manual"]
+},
+
+{
+text:`96. Explain the amphipathic nature of the biological membrane lipids`,
+answers:["cell membrane has hydrophilic head (phosphorus, water loving) and hydrophobic tail (lipids, water repelling)"]
+},
+
+{
+text:`97. The composition of a nucleoside includes ____________________ and ____________________`,
+answers:["nitrogenous base","pentose sugar"]
+},
+
+{
+text:`98. The nitrogenous bases present in DNA are ____________________, ____________________, ____________________ and ____________________`,
+answers:["adenine","guanine","cytosine","thymine"]
+},
+
+{
+text:`99. ____________________ and ____________________ are purine nitrogenous bases`,
+answers:["adenine","guanine"]
+},
+
+{
+text:`100. ____________________ bond links a nitrogenous base to a pentose sugar`,
+answers:["N-glycosidic bond"]
+},
+
+{
+text:`101. The structure of uracil has an oxygen attached at position ____________________ and ____________________`,
+answers:["2","4"]
+},
+
+{
+text:`102. DNA is made up of two strands that are twisted around each other to form a right-handed helix called ____________________`,
+answers:["double helix"]
+},
+
+{
+text:`103. A solution is acidic when ____________________`,
+answers:["[H+]>[OH-]"]
+},
+
+{
+text:`104. What is the pH when the hydroxyl ion concentration is 1 × 10⁻¹² M ____________________`,
+answers:["12"]
 }
 
-function updateGrid(){
- const btns=grid.querySelectorAll("button");
- btns.forEach((b,i)=>{
-  b.classList.remove("answered","current");
-  if(answers[i]!==undefined) b.classList.add("answered");
-  if(i===current) b.classList.add("current");
- });
+];
+/* ===== LOAD QUESTIONS ===== */
+function loadQuestions(){
+let container=document.getElementById("questionsContainer");
+questions.forEach((q,i)=>{
+let formatted=q.text.replace(/_{3,}/g,
+`<input type="text" class="blank" id="q${i}">`);
+container.innerHTML+=`<div class="question">${formatted}</div>`;
+});
 }
 
-function nextQuestion(){if(current<questions.length-1){current++;showQuestion();}}
-function prevQuestion(){if(current>0){current--;showQuestion();}}
-function goToQuestion(i){current=i;showQuestion();}
-
-/* SUBMIT */
+/* ===== MARKING (FIXED SAFE VERSION) ===== */
 function submitTest(){
- clearInterval(timer);
- preTestPage.style.display="none";
- resultPage.style.display="block";
 
- let score=0, reviewHTML="";
- questions.forEach((q,i)=>{
-  let correct=q.a===answers[i];
-  if(correct) score++;
-  reviewHTML+=`
-  <div class="review">
-   <b>Q${i+1}: ${q.q}</b><br>
-   <span class="${correct?"correct":"wrong"}">
-    Your answer: ${q.o[answers[i]]||"No answer"}
-   </span><br>
-   <span class="correct">Correct: ${q.o[q.a]}</span>
-  </div>`;
- });
+clearInterval(timerInterval);
 
- score.textContent=`${score} / ${questions.length}`;
+document.getElementById("testPage").style.display="none";
+document.getElementById("resultPage").style.display="block";
 
- let grade="F";
- if(score>=70) grade="A";
- else if(score>=60) grade="B";
- else if(score>=50) grade="C";
- else if(score>=40) grade="D";
+let score = 0;
+let review = "";
 
- grade.textContent=`Grade: ${grade}`;
- review.innerHTML=reviewHTML;
+if(!questions || questions.length === 0){
+document.getElementById("score").innerText = "No questions loaded.";
+return;
 }
 
-/* SHORTCUTS */
-const coursePage=document.getElementById("coursePage");
-const loginPage=document.getElementById("loginPage");
-const preTestPage=document.getElementById("preTestPage");
-const resultPage=document.getElementById("resultPage");
-const department=document.getElementById("department");
-const courseTitle=document.getElementById("courseTitle");
-const questionCount=document.getElementById("questionCount");
-const questionText=document.getElementById("questionText");
-const options=document.getElementById("options");
-const grid=document.getElementById("grid");
-const timerEl=document.getElementById("timer");
-const score=document.getElementById("score");
-const grade=document.getElementById("grade");
-const review=document.getElementById("review");
+questions.forEach((q,i)=>{
 
+let inputField = document.getElementById("q"+i);
+let user = inputField ? inputField.value.toLowerCase().trim() : "";
+
+let matchCount = 0;
+
+/* SAFE CHECK FOR ANSWERS ARRAY */
+if(q.answers && Array.isArray(q.answers)){
+
+q.answers.forEach(ans=>{
+if(user.includes(ans.toLowerCase())) matchCount++;
+});
+
+}
+
+let passed = matchCount > 0;
+
+if(passed) score++;
+
+review += `
+<div class="reviewItem ${passed?'correct':'wrong'}">
+<strong>Question ${i+1}</strong><br>
+Your Answer: ${user || "No answer"}<br>
+Correct Keywords: ${q.answers ? q.answers.join(", ") : "Not provided"}
+</div>
+`;
+
+});
+
+let percent = Math.round((score / questions.length) * 100);
+
+document.getElementById("score").innerText =
+`Score: ${score} / ${questions.length} (${percent}%)`;
+
+let grade;
+
+if(percent>=74) grade="A";
+else if(percent>=65) grade="B";
+else if(percent>=55) grade="C";
+else if(percent>=45) grade="D";
+else if(percent>=40) grade="E";
+else grade="F";
+
+document.getElementById("grade").innerText = "Grade: " + grade;
+document.getElementById("review").innerHTML = review;
+
+}
 </script>
-
 </body>
 </html>
