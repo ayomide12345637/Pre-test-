@@ -3,15 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Melox CSP 201 Pre-Test</title>
+<title>Melox Pre-Test Portal</title>
 
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
 
+/* ---------- COURSE PAGE ---------- */
+#coursePage{
+ height:100vh;display:flex;justify-content:center;align-items:center;
+ background:#1b5e20;
+}
+.courseBox{
+ background:#fff;width:90%;max-width:380px;
+ padding:30px;border-radius:14px;text-align:center;
+}
+.courseBox img{width:80px;margin-bottom:10px}
+.courseBox h2{color:#1b5e20;margin-bottom:20px}
+.courseBtn{
+ width:100%;padding:14px;margin-top:10px;
+ border:none;background:#c62828;color:#fff;
+ font-weight:bold;border-radius:10px;
+ font-size:16px;cursor:pointer;
+}
+
 /* ---------- LOGIN PAGE ---------- */
 #loginPage{
- height:100vh;display:flex;justify-content:center;align-items:center;
+ display:none;height:100vh;justify-content:center;align-items:center;
  background:#1b5e20;
 }
 #loginBox{
@@ -62,17 +80,13 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
 }
 .option input{margin-right:8px}
 
-/* ---------- NAV BUTTONS ---------- */
-#nav{
- display:flex;gap:10px;margin-top:15px;
-}
+#nav{display:flex;gap:10px;margin-top:15px}
 #nav button{
  flex:1;padding:12px;border:none;border-radius:10px;
  background:#1b5e20;color:#fff;font-weight:bold;
  cursor:pointer;
 }
 
-/* ---------- QUESTION GRID ---------- */
 #grid{
  display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;
 }
@@ -111,20 +125,31 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
 
 <body>
 
+<!-- COURSE SELECTION -->
+<div id="coursePage">
+ <div class="courseBox">
+  <img src="https://i.imgur.com/7PeWEGa.jpeg">
+  <h2>Select Course</h2>
+  <button class="courseBtn" onclick="selectCourse('FAT 201')">FAT 201</button>
+  <button class="courseBtn" onclick="selectCourse('APH 201')">APH 201</button>
+  <button id="fatBtn">FAT</button>
+ </div>
+</div>
+
 <!-- LOGIN PAGE -->
 <div id="loginPage">
  <div id="loginBox">
-  <img src="https://i.imgur.com/7PeWEGa.jpeg" alt="School Logo">
-  <h2>Melox CSP 201<br>Pre-Test</h2>
+  <img src="https://i.imgur.com/7PeWEGa.jpeg">
+  <h2 id="courseTitle"></h2>
   <input type="text" id="department" placeholder="Enter Department">
   <button onclick="startTest()">Start Pre-Test</button>
  </div>
 </div>
 
-<!-- PRE-TEST PAGE -->
+<!-- PRE TEST PAGE -->
 <div id="preTestPage">
  <div id="preTestHeader">
- <img src="https://i.imgur.com/7PeWEGa.jpeg" alt="School Logo">
+  <img src="https://i.imgur.com/7PeWEGa.jpeg">
   <div id="headerCenter">
    <div id="sectionTitle"></div>
    <div id="questionCount"></div>
@@ -152,140 +177,147 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
 
 <!-- RESULTS PAGE -->
 <div id="resultPage">
-<img src="https://i.imgur.com/7PeWEGa.jpeg" alt="School Logo">
+<img src="https://i.imgur.com/7PeWEGa.jpeg">
  <div class="result-score" id="score"></div>
  <div class="result-grade" id="grade"></div>
  <div id="review"></div>
 </div>
 
 <script>
-/* ---------- CSP 201 QUESTIONS (paste your questions here) ---------- */
-const questions = [
 
-/* ===== SECTION A: FORESTRY, WOOD & BASIC PLANT CONCEPTS ===== */
-{q:"The characteristics of softwood include the following except:", o:["Their seeds are borne on cones","They are called conifers","They have needle-like leaves","They are having soft growth patterns"], a:3},
-{q:"The living portion of wood is:", o:["Heartwood","Latewood","Earlywood","Sapwood"], a:3},
-{q:"The major component of wood is:", o:["Cellulose","Protein","Starch","Lignin"], a:0},
-{q:"The main component of green fodder is:", o:["Fiber","Carbohydrates","Proteins","Water"], a:0},
+/* =============================
+   PASTE QUESTIONS HERE
+============================= */
 
-/* ===== SECTION B: MICROBIOLOGY, DISEASES & PARASITES ===== */
-{q:"Bacteriophages are:", o:["Bacteria","Fungi","Protozoa","Viruses"], a:3},
-{q:"Animals are treated with acaricides against:", o:["Worms","Endoparasites","PPR disease","Ectoparasites"], a:3},
-{q:"Foot and mouth disease is a:", o:["Bacterial disease","Fungal disease","Protozoan disease","Viral disease"], a:3},
-{q:"A disease transmitted by tsetse flies is:", o:["Foot and mouth disease","Anthrax","Trypanosomiasis","Brucellosis"], a:2},
-{q:"Diseases caused by bacteria include all except:", o:["Tuberculosis","Salmonellosis","Measles","Brucellosis"], a:2},
-{q:"A parasite that lives inside an animal is called:", o:["Ectoparasite","Endoparasite","Vector","Carrier"], a:1},
-
-/* ===== SECTION C: ANIMAL PRODUCTION & LIVESTOCK ===== */
-{q:"The third compartment of a ruminant stomach is:", o:["Reticulum","Rumen","Abomasum","Omasum"], a:3},
-{q:"The total number of piglets farrowed by a sow at a time is called:", o:["Litter number","Fecundity","Generation interval","Litter size"], a:3},
-{q:"Brushing and cleaning of an animal’s body is called:", o:["Caring","Sanitation","Medication","Grooming"], a:3},
-{q:"Ruminants have _______ stomach compartments.", o:["One","Two","Three","Four"], a:3},
-{q:"Animals that chew cud are:", o:["Monogastric animals","Carnivores","Grazers","Ruminants"], a:3},
-{q:"Parturition in pigs is called:", o:["Calving","Kidding","Kindling","Farrowing"], a:3},
-{q:"Farm animal that utilizes cellulose-rich herbs well:", o:["Rabbits","Chickens","Pigs","Sheep"], a:3},
-{q:"Piglets are weaned between:", o:["30–65 days","60–80 days","120–150 days","25–56 days"], a:3},
-{q:"The feeding of young animals by milk is called:", o:["Weaning","Nursing","Grazing","Lactation"], a:1},
-{q:"The main function of the rumen is:", o:["Protein absorption","Water absorption","Fermentation of fiber","Cellulose digestion"], a:2},
-{q:"The gestation period of a cow is:", o:["9 months","7 months","5 months","11 months"], a:0},
-
-/* ===== SECTION D: CROP PRODUCTION & SOIL SCIENCE ===== */
-{q:"Crops classified based on growth duration include:", o:["Annuals","Biennials","Perennials","All of the above"], a:3},
-{q:"The five soil forming factors include all except:", o:["Parent material","Topography","Climate","Organic matter"], a:3},
-{q:"Separation of grain from chaff is called:", o:["Seeding","Ploughing","Weeding","Threshing"], a:3},
-{q:"Carbon dioxide and water combine in leaves to form glucose through:", o:["Photorespiration","Oxidation","Carbohydroxylation","Photosynthesis"], a:3},
-{q:"The definition of soil varies with:", o:["Profession and potential","Perception and ability","Nationality and potential","Profession and perception"], a:3},
-{q:"The purpose of mulching is soil:", o:["Prediction","Prevention","Purification","Protection"], a:3},
-{q:"In crop production, thinning is done to:", o:["Increase plant density","Reduce plant density","Harvest crops early","Improve yield"], a:1},
-{q:"The measurement of the acidity or alkalinity of soil is:", o:["Soil texture","Soil porosity","Soil pH","Soil structure"], a:2},
-{q:"Soil texture depends on the proportion of:", o:["Sand, silt, clay","Water, clay, organic matter","Sand, gravel, pebbles","Sand, silt, loam"], a:0},
-{q:"The main purpose of ploughing is to:", o:["Remove weeds","Aerate soil and turn over the topsoil","Fertilize crops","Level the land"], a:1},
-{q:"The process of breaking down large soil clumps is called:", o:["Mulching","Ploughing","Harrowing","Ridging"], a:2},
-{q:"The most effective way to control soil erosion is:", o:["Cover cropping","Burning the field","Irrigation","Terracing"], a:0},
-{q:"The first step in crop production is:", o:["Sowing","Land preparation","Fertilizing","Weeding"], a:1},
-{q:"Soil rich in organic matter is called:", o:["Sandy soil","Loamy soil","Peaty soil","Clay soil"], a:2},
-
-/* ===== SECTION E: FISHERIES & AQUACULTURE ===== */
-{q:"Labour intensive and low capital investment is a feature of:", o:["Industrial fisheries","Aquaculture","Capture fisheries","Small scale fisheries"], a:3},
-{q:"Mariculture is:", o:["Freshwater fish farming","River fishing","Pond culture","Marine (salt water) aquaculture"], a:3},
-{q:"Fish ponds should be aerated to:", o:["Reduce water temperature","Increase oxygen supply","Prevent algae growth","Control predators"], a:1},
-{q:"Fish feed is usually:", o:["High in protein","High in fiber","High in cellulose","High in carbohydrate"], a:0},
-{q:"Fish reproduce through:", o:["Budding","Spawning","Pollination","Fragmentation"], a:1},
-
-/* ===== SECTION F: ECONOMICS, EXTENSION & MANAGEMENT ===== */
-{q:"Cost that varies with output is:", o:["Fixed cost","Average cost","Total cost","Variable cost"], a:3},
-{q:"Telephone calls and farm visits are:", o:["Group methods","Mass contact methods","Channel methods","Individual methods"], a:3},
-{q:"Extension education is heterogeneous because:", o:["It involves males and females","It involves old and young","It involves people from all religions","All of the above"], a:3},
-{q:"Cost that does not change with output is:", o:["Variable cost","Average cost","Total cost","Fixed cost"], a:3},
-{q:"TR stands for:", o:["Transportation rate","Technical ratio","Terms of reference","Total revenue"], a:3},
-{q:"Profit is:", o:["TC – TR","TR – TVC","TVC – TR","TR – TC"], a:3},
-{q:"Total cost is:", o:["MC + VC","FC + MC","TT + TY","FC + VC"], a:3},
-
-/* ===== SECTION G: CONSERVATION, ECOLOGY & BIOTECHNOLOGY ===== */
-{q:"Many values derived from wildlife conservation include the following except:", o:["Food and raw materials","Social services","Monetary services","None of the above"], a:3},
-{q:"Conservation outside natural habitat is:", o:["In-situ conservation","Ecological conservation","Wildlife protection","Ex-situ conservation"], a:3},
-{q:"TIES means:", o:["Tourism International Ecological Society","The International Environmental Service","The International Environmental Society","The International Ecotourism Society"], a:3},
-{q:"Active manipulation of wildlife and habitat is:", o:["Wildlife preservation","Wildlife domestication","Wildlife protection","Wildlife management"], a:3},
-{q:"Non-timber forest products are classified into:", o:["Fauna and flower products","Floristic and fauna products","Faunua and floral products","Fauna and floral products"], a:3},
-{q:"Basic techniques of modern biotechnology include all except:", o:["Recombinant DNA technology","Protoplast fusion","Polymerase chain reaction","Grafting"], a:3},
-{q:"The natural habitat of wild animals is preserved through:", o:["Captivity","National parks","Zoos","Game reserves"], a:1},
-{q:"The study of interactions between organisms and their environment is:", o:["Ecology","Pedology","Botany","Zoology"], a:0},
-
-/* ===== SECTION H: GENERAL AGRICULTURE, FOOD & NUTRITION ===== */
-{q:"The six required nutrients for humans are:", o:["Fibre, proteins, vitamins, fats, minerals and water","Carbohydrates, proteases, vitamins, fats, minerals and water","Carbohydrates, proteases, vitamins, oils, minerals and water","Carbohydrates, proteins, fats/oils, vitamins, minerals and water"], a:3},
-{q:"Natural insecticides include:", o:["Pyrethrum","Nicotine","Both A and B","None"], a:2},
-{q:"Pasteurization is the process of:", o:["Freezing milk","Boiling milk","Sterilizing milk by heat","Heating milk to destroy pathogenic microorganisms"], a:3},
-{q:"Physical characteristics of food include all except:", o:["Shape and size","Colour and surface texture","Volume and density","Centrifugation and milling"], a:3},
-{q:"Disintegration operations include the following except:", o:["Pulverizing","Spraying","Sawing","Breeding"], a:3},
-{q:"The most abundant gas in the atmosphere is:", o:["Oxygen","Carbon dioxide","Nitrogen","Argon"], a:2},
-{q:"The main source of energy for animals is:", o:["Protein","Carbohydrate","Fat","Vitamins"], a:1},
-{q:"Growth regulators in plants include:", o:["Auxins","Gibberellins","Cytokinins","All of the above"], a:3},
-{q:"Waterlogged soil is bad because:", o:["It increases aeration","It suffocates roots","It reduces nutrients","It increases pH"], a:1},
-{q:"The main cause of global warming is:", o:["Deforestation","Greenhouse gases","Pollution","Ozone depletion"], a:1},
-{q:"The main cause of desertification is:", o:["Overgrazing","Flooding","Fertilization","Deforestation"], a:0},
-{q:"The study of soil is called:", o:["Agronomy","Pedology","Geology","Edaphology"], a:1},
-{q:"Pasteurization of milk is done at:", o:["0–5°C","60–70°C","100°C","121°C"], a:1},
-{q:"The process of converting milk to curd is called:", o:["Pasteurization","Fermentation","Homogenization","Sterilization"], a:1},
-{q:"A horticultural crop is:", o:["Rice","Maize","Tomato","Wheat"], a:2},
-{q:"The best method of poultry housing is:", o:["Deep litter system","Battery cage","Free range","Semi-intensive"], a:0},
-{q:"Animal protein sources include:", o:["Meat","Eggs","Milk","All of the above"], a:3},
-{q:"Pests in crops can be controlled by:", o:["Chemical control","Biological control","Cultural methods","All of the above"], a:3},
-{q:"Fertilizers provide:", o:["Energy for plants","Nutrients for plants","Pesticides for plants","Water for plants"], a:1},
-{q:"The main function of leaves is:", o:["Reproduction","Photosynthesis","Support","Transpiration"], a:1},
-{q:"Crop rotation helps to:", o:["Reduce pests and diseases","Improve soil fertility","Prevent soil exhaustion","All of the above"], a:3},
-{q:"A method of preserving food by removing water is:", o:["Canning","Freezing","Drying","Pickling"], a:2},
-{q:"The primary producers in an ecosystem are:", o:["Herbivores","Carnivores","Plants","Decomposers"], a:2},
-{q:"Biological control uses:", o:["Chemicals","Natural predators","Fire","Traps"], a:1},
-{q:"Organic fertilizers include:", o:["Manure","Urea","NPK","DAP"], a:0},
-{q:"The part of the seed that becomes the new plant is:", o:["Cotyledon","Embryo","Seed coat","Endosperm"], a:1},
-{q:"The main purpose of irrigation is to:", o:["Fertilize soil","Supply water","Kill pests","Control weeds"], a:1},
-{q:"Livestock breeds are improved through:", o:["Crossbreeding","Natural selection","Mutation","Inbreeding"], a:0},
-{q:"Composting produces:", o:["Pesticides","Fertilizer","Herbicides","Insecticides"], a:1},
-{q:"The ripening of fruits can be accelerated by:", o:["Ethylene gas","Water","Sunlight","Carbon dioxide"], a:0},
-{q:"Vaccines are used to:", o:["Treat diseases","Prevent diseases","Increase milk production","Improve growth"], a:1},
-{q:"Artificial insemination in animals is mainly used to:", o:["Feed animals","Improve genetic quality","Prevent diseases","Increase weight"], a:1},
-{q:"The type of breeding used to maintain pure breeds is:", o:["Crossbreeding","Inbreeding","Random mating","Outbreeding"], a:1},
-{q:"Vaccination is an example of:", o:["Treatment","Prevention","Cure","Control"], a:1},
-{q:"The natural grazing lands are called:", o:["Pastures","Rangelands","Farmlands","Orchards"], a:1},
-{q:"Soil fertility is enhanced by:", o:["Crop rotation","Manure application","Green manure","All of the above"], a:3},
-{q:"Biotechnology involves:", o:["Genetic manipulation","Chemical fertilizer","Organic manure","Pesticide application"], a:0},
-{q:"The first step in post-harvest handling is:", o:["Storage","Threshing","Harvesting","Sorting"], a:2},
-{q:"The science of breeding and rearing livestock is called:", o:["Agronomy","Animal husbandry","Veterinary medicine","Apiculture"], a:1},
+const FAT_QUESTIONS = [
+   // Paste FAT 201 questions here
 ];
 
-let current=0, answers=[], time=1200, timer; /* 20 minutes = 1200 seconds */
+const APH_QUESTIONS = [
+   /* ===== SECTION A: BASIC STRUCTURAL ORGANIZATION & TISSUES ===== */
+{q:"The correct order of structural organization is:", o:["Tissue > Cell > Organ > System","Cell > Tissue > Organ > System","Organ > Cell > Tissue > System","System > Organ > Tissue > Cell"], a:1},
+{q:"Epithelial tissue primarily:", o:["Conducts impulses","Covers and protects surfaces","Contracts","Binds tissues"], a:1},
+{q:"Connective tissue:", o:["Supports and binds tissues","Conducts impulses","Contracts","Covers"], a:0},
+{q:"Muscular tissue is responsible for:", o:["Conduction","Protection","Contraction and movement","Binding"], a:2},
+{q:"Nervous tissue:", o:["Produces hormones","Conducts impulses","Contracts","Protects"], a:1},
+{q:"Epithelial tissue is classified into:", o:["Simple and stratified epithelium","Cuboidal and nervous","Connective and muscular","Bone and cartilage"], a:0},
+{q:"Simple squamous epithelium is:", o:["Thick","Plate-like and thin","Cube-shaped","Column-shaped"], a:1},
+{q:"Simple cuboidal epithelium is found in:", o:["Brain","Ducts of glands","Heart","Skin"], a:1},
+{q:"Simple columnar epithelium occurs in:", o:["Digestive tract","Bone","Muscle","Blood"], a:0},
+{q:"Stratified squamous epithelium occurs in:", o:["Skin","Liver","Kidney","Brain"], a:0},
+{q:"Transitional epithelium is found in:", o:["Heart","Stomach","Urinary bladder","Lung"], a:2},
 
-/* ---------- START ---------- */
+/* ===== SECTION B: CONNECTIVE TISSUE & SUPPORTING STRUCTURES ===== */
+{q:"Reticular tissue forms framework of:", o:["Muscle","Lymphatic organs","Skin","Brain"], a:1},
+{q:"Adipose tissue stores:", o:["Water","Protein","Fat","Oxygen"], a:2},
+{q:"Cartilage cells are called:", o:["Osteocytes","Chondrocytes","Myocytes","Neurons"], a:1},
+{q:"Bone cells are called:", o:["Myocytes","Osteocytes","Neutrophils","Platelets"], a:1},
+{q:"Blood is:", o:["Muscular tissue","Connective tissue","Nervous tissue","Epithelial tissue"], a:1},
+
+/* ===== SECTION C: NERVOUS & MUSCLE TISSUE + CELL BASICS ===== */
+{q:"Functional unit of nervous system:", o:["Neuron","Osteon","Myofibril","Alveolus"], a:0},
+{q:"Powerhouse of the cell:", o:["Ribosome","Mitochondria","Lysosome","Nucleus"], a:1},
+{q:"Control center of the cell:", o:["Cytoplasm","Nucleus","Ribosome","Golgi body"], a:1},
+{q:"Protein synthesis occurs in:", o:["Lysosome","Ribosome","Nucleus","Centriole"], a:1},
+{q:"Basic unit of life:", o:["Tissue","Cell","Organ","System"], a:1},
+{q:"Study of tissues is:", o:["Cytology","Histology","Anatomy","Physiology"], a:1},
+{q:"Study of cells:", o:["Histology","Cytology","Pathology","Embryology"], a:1},
+
+/* ===== SECTION D: MUSCLE TYPES & BODY SYSTEMS OVERVIEW ===== */
+{q:"Involuntary muscle:", o:["Skeletal","Cardiac","Voluntary","Smooth (voluntary)"], a:1},
+{q:"Voluntary muscle:", o:["Skeletal muscle","Cardiac","Smooth","Blood"], a:0},
+{q:"Smooth muscle is found in:", o:["Bones","Walls of internal organs","Brain","Skin"], a:1},
+{q:"The largest organ of the body:", o:["Liver","Skin","Heart","Brain"], a:1},
+{q:"Longest bone in the body:", o:["Tibia","Femur","Humerus","Radius"], a:1},
+
+/* ===== SECTION E: BLOOD, CIRCULATION & RESPIRATION ===== */
+{q:"RBC is produced in:", o:["Kidney","Bone marrow","Liver","Spleen"], a:1},
+{q:"Normal human body temperature:", o:["35°C","36°C","37°C","38°C"], a:2},
+{q:"Number of chambers in the heart:", o:["2","3","4","5"], a:2},
+{q:"Organ that pumps blood:", o:["Lung","Heart","Liver","Kidney"], a:1},
+{q:"Largest artery:", o:["Pulmonary artery","Aorta","Femoral artery","Carotid"], a:1},
+{q:"Gas exchanged in lungs:", o:["Nitrogen","Oxygen and Carbon dioxide","Hydrogen","Methane"], a:1},
+{q:"Blood group universal donor:", o:["A","B","AB","O negative"], a:3},
+{q:"Universal recipient:", o:["O","A","AB positive","B"], a:2},
+{q:"The red pigment in blood is:", o:["Myoglobin","Hemoglobin","Melanin","Keratin"], a:1},
+{q:"The normal pulse rate of an adult is approximately:", o:["40 bpm","60–100 bpm","120 bpm","150 bpm"], a:1},
+
+/* ===== SECTION F: ENDOCRINE, DIGESTION & EXCRETION ===== */
+{q:"Hormones are secreted by:", o:["Exocrine glands","Endocrine glands","Sweat glands","Sebaceous glands"], a:1},
+{q:"Largest gland:", o:["Thyroid","Liver","Pancreas","Adrenal"], a:1},
+{q:"Digestion of food begins in the:", o:["Stomach","Mouth","Small intestine","Large intestine"], a:1},
+{q:"The enzyme in saliva is:", o:["Pepsin","Amylase","Lipase","Trypsin"], a:1},
+{q:"The organ responsible for detoxification is:", o:["Kidney","Liver","Heart","Lung"], a:1},
+{q:"The pancreas produces:", o:["Insulin","Bile","Saliva","Thyroxine"], a:0},
+{q:"The organ that stores bile is the:", o:["Liver","Gallbladder","Pancreas","Kidney"], a:1},
+{q:"The main function of the large intestine is:", o:["Digestion","Absorption of water","Hormone production","Oxygen exchange"], a:1},
+{q:"The hormone that regulates blood sugar is:", o:["Adrenaline","Insulin","Thyroxine","Estrogen"], a:1},
+
+/* ===== SECTION G: SENSORY ORGANS, BONES & MISCELLANEOUS ===== */
+{q:"The largest part of the brain is:", o:["Cerebellum","Medulla","Cerebrum","Pons"], a:2},
+{q:"The main organ of respiration is the:", o:["Heart","Lung","Liver","Brain"], a:1},
+{q:"The organ that filters blood is:", o:["Liver","Kidney","Lung","Spleen"], a:1},
+{q:"The smallest bone in the body is:", o:["Femur","Stapes","Radius","Ulna"], a:1},
+{q:"The joint that allows movement in all directions is:", o:["Hinge joint","Pivot joint","Ball and socket joint","Gliding joint"], a:2},
+{q:"The sense organ for taste is the:", o:["Nose","Tongue","Ear","Skin"], a:1},
+{q:"The largest lymphatic organ is the:", o:["Kidney","Liver","Spleen","Pancreas"], a:2},
+{q:"White blood cells help in:", o:["Oxygen transport","Immunity and defense","Clotting","Digestion"], a:1},
+{q:"Platelets are responsible for:", o:["Immunity","Clotting of blood","Oxygen transport","Hormone secretion"], a:1},
+{q:"The number of bones in an adult human is:", o:["200","206","210","196"], a:1},
+{q:"The part of the brain that controls balance is:", o:["Cerebrum","Cerebellum","Medulla","Pons"], a:1},
+{q:"The medulla oblongata controls:", o:["Thinking","Voluntary movement","Breathing and heartbeat","Memory"], a:2},
+{q:"The strongest muscle in the body (by force) is:", o:["Biceps","Masseter","Quadriceps","Triceps"], a:1},
+{q:"The organ responsible for vision is the:", o:["Ear","Nose","Eye","Skin"], a:2},
+{q:"The fluid inside joints is called:", o:["Plasma","Synovial fluid","Lymph","Serum"], a:1},
+{q:"The hormone responsible for growth is:", o:["Insulin","Growth hormone","Thyroxine","Progesterone"], a:1},
+{q:"The main organ of the endocrine system is the:", o:["Liver","Pituitary gland","Lung","Spleen"], a:1},
+{q:"The main function of red blood cells is:", o:["Immunity","Oxygen transport","Clotting","Hormone transport"], a:1},
+{q:"The heart is located in the:", o:["Abdomen","Pelvic cavity","Thoracic cavity","Cranial cavity"], a:2},
+{q:"The diaphragm helps in:", o:["Digestion","Breathing","Circulation","Excretion"], a:1},
+{q:"The smallest functional unit of bone is:", o:["Nephron","Osteon","Sarcomere","Axon"], a:1},
+{q:"The main function of the skin is:", o:["Hormone secretion","Protection","Digestion","Respiration"], a:1},
+{q:"The appendix is attached to the:", o:["Small intestine","Large intestine (cecum)","Stomach","Liver"], a:1},
+{q:"The organ that produces sperm in males is the:", o:["Penis","Testis","Prostate","Urethra"], a:1},
+{q:"The organ that produces ova in females is the:", o:["Uterus","Ovary","Cervix","Vagina"], a:1},
+{q:"The normal pH of blood is approximately:", o:["6.0","7.4","8.5","5.5"], a:1},
+{q:"The largest part of the respiratory system is the:", o:["Trachea","Lung","Bronchi","Larynx"], a:1},
+{q:"The voice box is the:", o:["Pharynx","Larynx","Trachea","Bronchus"], a:1},
+{q:"The main function of the kidney is:", o:["Digestion","Filtration and excretion","Respiration","Circulation"], a:1},
+{q:"The organ responsible for pumping oxygenated blood to the body is the:", o:["Right atrium","Left ventricle","Right ventricle","Left atrium"], a:1},
+{q:"Homeostasis means:", o:["Growth","Balance of internal environment","Movement","Respiration"], a:1},
+];
+
+/* ============================= */
+
+let selectedCourse="";
+let questions=[];
+let current=0, answers=[], time=1200, timer;
+
+/* COURSE SELECT */
+function selectCourse(course){
+ selectedCourse=course;
+ coursePage.style.display="none";
+ loginPage.style.display="flex";
+ courseTitle.textContent=course+" Pre-Test";
+}
+
+/* START TEST */
 function startTest(){
  if(!department.value.trim()) return alert("Enter department");
+
+ questions = selectedCourse==="FAT 201" ? FAT_QUESTIONS : APH_QUESTIONS;
+
+ if(questions.length===0) return alert("No questions added yet.");
+
  loginPage.style.display="none";
  preTestPage.style.display="flex";
+
  loadGrid();
  showQuestion();
  startTimer();
 }
 
-/* ---------- TIMER ---------- */
+/* TIMER */
 function startTimer(){
  timer=setInterval(()=>{
   let m=Math.floor(time/60);
@@ -296,9 +328,8 @@ function startTimer(){
  },1000);
 }
 
-/* ---------- SHOW QUESTION ---------- */
+/* SHOW QUESTION */
 function showQuestion(){
- sectionTitle.textContent=getSection(current);
  questionCount.textContent=`Question ${current+1} of ${questions.length}`;
  questionText.textContent=questions[current].q;
 
@@ -316,13 +347,13 @@ function showQuestion(){
  updateGrid();
 }
 
-/* ---------- ANSWER ---------- */
-function selectAnswer(i){
- answers[current]=i;
- updateGrid();
-}
+document.getElementById("fatBtn").addEventListener("click", function () {
+    alert("I didn't see the +++ so I can't set the questions because I haven't seen the logic of how the questions are structured. Please don't be upset. If you have the FAT PDF with the +++ format, kindly send it to me on WhatsApp: 08081531407.");
+});
 
-/* ---------- GRID ---------- */
+
+function selectAnswer(i){ answers[current]=i; updateGrid(); }
+
 function loadGrid(){
  let html="";
  for(let i=0;i<questions.length;i++){
@@ -330,6 +361,7 @@ function loadGrid(){
  }
  grid.innerHTML=html;
 }
+
 function updateGrid(){
  const btns=grid.querySelectorAll("button");
  btns.forEach((b,i)=>{
@@ -339,12 +371,11 @@ function updateGrid(){
  });
 }
 
-/* ---------- NAV ---------- */
 function nextQuestion(){if(current<questions.length-1){current++;showQuestion();}}
 function prevQuestion(){if(current>0){current--;showQuestion();}}
 function goToQuestion(i){current=i;showQuestion();}
 
-/* ---------- SUBMIT ---------- */
+/* SUBMIT */
 function submitTest(){
  clearInterval(timer);
  preTestPage.style.display="none";
@@ -364,7 +395,7 @@ function submitTest(){
   </div>`;
  });
 
- scoreEl.textContent=`${score} / ${questions.length}`;
+ score.textContent=`${score} / ${questions.length}`;
 
  let grade="F";
  if(score>=70) grade="A";
@@ -372,29 +403,26 @@ function submitTest(){
  else if(score>=50) grade="C";
  else if(score>=40) grade="D";
 
- gradeEl.textContent=`Grade: ${grade}`;
+ grade.textContent=`Grade: ${grade}`;
  review.innerHTML=reviewHTML;
 }
 
-/* ---------- SHORTCUTS ---------- */
+/* SHORTCUTS */
+const coursePage=document.getElementById("coursePage");
 const loginPage=document.getElementById("loginPage");
 const preTestPage=document.getElementById("preTestPage");
 const resultPage=document.getElementById("resultPage");
 const department=document.getElementById("department");
-const sectionTitle=document.getElementById("sectionTitle");
+const courseTitle=document.getElementById("courseTitle");
 const questionCount=document.getElementById("questionCount");
 const questionText=document.getElementById("questionText");
 const options=document.getElementById("options");
 const grid=document.getElementById("grid");
 const timerEl=document.getElementById("timer");
-const scoreEl=document.getElementById("score");
-const gradeEl=document.getElementById("grade");
+const score=document.getElementById("score");
+const grade=document.getElementById("grade");
 const review=document.getElementById("review");
 
-/* ---------- PLACEHOLDER SECTION LOGIC ---------- */
-function getSection(index){
- return "CSP 201 Section"; /* Replace with your actual section logic */
-}
 </script>
 
 </body>
