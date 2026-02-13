@@ -132,7 +132,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
   <h2>Select Course</h2>
   <button class="courseBtn" onclick="selectCourse('FAT 201')">FAT 201</button>
   <button class="courseBtn" onclick="selectCourse('APH 201')">APH 201</button>
-  <button id="fatBtn">FAT</button>
+  
  </div>
 </div>
 
@@ -190,7 +190,61 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4}
 ============================= */
 
 const FAT_QUESTIONS = [
-   // Paste FAT 201 questions here
+ /* ===== SECTION A: BASIC AQUACULTURE & FISH BIOLOGY (1–15) ===== */
+{q:"Osmo-regulatory function in fish is performed by the:", o:["Gills","Skin","Kidneys","Fins"], a:1},
+{q:"Types of aquaculture are:", o:["Monoculture and polyculture","Homoculture and polyculture","Monoculture and homoculture","Polyculture and heteraculture"], a:1},
+{q:"African lady fish feed mostly on … in the brackish water.", o:["Plankton","Fish","Algae","Insects"], a:1},
+{q:"……………… involves the cultivation of freshwater and saltwater organisms under controlled conditions.", o:["Capture fisheries","Aquaculture","Artisanal fishing","Industrial fishing"], a:1},
+{q:"Fishes are used as raw material for ……….", o:["Fillets","Fertilizer","Feed","All of the above"], a:0},
+{q:"………… is morphological feature that distinguishes a fish from other animals.", o:["Scales","Fins","Gills","Operculum"], a:1},
+{q:"Hermaphroditism can pay off in situations where one sex is more likely to ……", o:["Migrate","Dominate","Spawn","Feed"], a:1},
+{q:"………… in fish reduces the risk of cardiovascular disease, hypertension and arteriosclerosis.", o:["Omega-3 fatty acid","Vitamin D","Protein","Calcium"], a:0},
+{q:"………… are examples of bony fish shapes.", o:["Compressiform and anguilliform","Fusiform and depressiform","All of the above","None of the above"], a:2},
+{q:"Another name for bony fish is called ………", o:["Chondrichthyes","Osteichthyes","Agnatha","Cyclostomata"], a:1},
+{q:"………… constitute the most significant fishery sector in Nigeria.", o:["Industrial fisheries","Artisanal fisheries","Aquaculture","Recreational fisheries"], a:1},
+{q:"………… is the newly hatched young of an oviparous fish.", o:["Fry","Larvae","Fingerling","Juvenile"], a:1},
+{q:"………… are the two types of viviparity.", o:["Histotrophic and hemotrophic","Lecithotrophic and matrotrophic","Ovoviviparous and viviparous","None of the above"], a:0},
+{q:"………… are forms of interventions in fish farming to enhance production.", o:["Capture methods","Aquaculture","Stock enhancement","All of the above"], a:1},
+{q:"………… are examples of fish body shapes.", o:["Fusiform, compressiform, anguilliform, taeniform, depressiform","Only fusiform and compressiform","Only anguilliform and depressiform","None of the above"], a:0},
+
+/* ===== SECTION B: FISHERIES & POND MANAGEMENT (16–30) ===== */
+{q:"Capture fisheries entails ……… for fishes in their natural habitats.", o:["Farming","Hunting","Breeding","Stocking"], a:1},
+{q:"………… is a permanent water holding facility that requires a bulk of the initial capital.", o:["Cage","Pond","Tank","Raceway"], a:1},
+{q:"The time it would take to recover capital put into fish farming would depend on the level of ………", o:["Stocking","Management","Feeding","Marketing"], a:1},
+{q:"………… is keeping or protecting from change, loss or damage.", o:["Exploitation","Conservation","Harvesting","Overfishing"], a:1},
+{q:"Fish egg is generally surrounded by ………", o:["Chorion","Zona pellucida","Vitelline membrane","All of the above"], a:0},
+{q:"………… is a fishery management plan.", o:["Open season","Closed season","Open fishery","Closed fishery"], a:1},
+{q:"Paired fin reduced to limb-like filament in family:", o:["Channidae","Protopteridae","Clariidae","Cichlidae"], a:1},
+{q:"Fresh water bodies in Nigeria have …………… salinity level.", o:["Less than 1.0 PPT","Less than 0.5 PPT","More than 0.5 PPT","More than 1.0 PPT"], a:1},
+{q:"Aquatic fauna of food values includes the following except:", o:["Cladocea","Algae","Periwinkle","Crustaceans"], a:1},
+{q:"A representative of the family Channidae is ……………", o:["Parachanna obscura","Parachanna gariepinus","Tilapia obscura","Obscura tilapia"], a:0},
+{q:"Biomass is the:", o:["Harvesting of fish","Volume of species given at a time","Percentage of drying fish","Discarded species"], a:1},
+{q:"Aquarium fishes are ……………", o:["Recreational fishes","Big fishes","Ornamental fishes","Aesthetic fishes"], a:2},
+{q:"Fish families of food values in Nigeria waters include the following except:", o:["Ariidae","Alestidae","Clariidae","Cladocae"], a:3},
+{q:"Which of this is not needed for plant to produce food?", o:["Solar radiation","Temperature","Oxygen and nutrient availability","Wind"], a:3},
+{q:"Basic needs for fish farming include the following except:", o:["Sunlight","Soil type","Legal ownership of land","Accessibility"], a:0},
+
+/* ===== SECTION C: FISH BEHAVIOUR, MIGRATION & MARINE ECOSYSTEMS (31–50) ===== */
+{q:"Schooling behavior in fish is characterized by:", o:["Random dispersion","Bunching with equal spacing and same direction","Aggressive territorial display","Solitary hovering"], a:1},
+{q:"Anadromous migration means:", o:["Freshwater fish migrating to sea to spawn","Marine fish migrating to freshwater to spawn","Migration within freshwater only","Daily vertical movement"], a:1},
+{q:"Catadromous fish like eels migrate from:", o:["Sea to freshwater for spawning","Freshwater to sea for spawning","River to lake only","Deep sea to surface"], a:1},
+{q:"Potamodromous migration occurs:", o:["Between sea and freshwater","Within freshwater habitats only","Within marine environments only","Vertically in water column"], a:1},
+{q:"The Sargasso Sea is the spawning destination for:", o:["Salmon","European and American eels","Tuna","Mahi-mahi"], a:1},
+{q:"The main purpose of fish migration is to find:", o:["Only food","Suitable feeding, spawning, or refuge grounds","Only resting places","Only climatic changes"], a:1},
+{q:"Vertical migration in fish is typically:", o:["Seasonal north-south movement","Daily movement up and down the water column","Permanent movement to deeper water","Shoreward movement to land"], a:1},
+{q:"The brain region controlling smell in fish is the:", o:["Cerebellum","Olfactory bulbs","Optic lobes","Medulla oblongata"], a:1},
+{q:"The cerebellum in fish is primarily responsible for:", o:["Thinking and memory","Coordinating muscle movements","Controlling heart rate","Processing smell"], a:1},
+{q:"The medulla oblongata in fish controls:", o:["Vision","Breathing, heartbeat, and gill movements","Memory storage","Smell detection"], a:1},
+{q:"Estuaries are highly productive because:", o:["They have constant high salinity","Nutrients from river and ocean mix in sheltered areas","They are very deep","They have no oxygen"], a:1},
+{q:"Salt marshes are characterized by:", o:["Deep water with no tides","Regular flooding by tides and low-oxygen soil","Coral polyp growth","Open ocean conditions"], a:1},
+{q:"Mangrove forests are important because:", o:["They provide nesting sites for birds and habitat for fish/crabs","They are found in cold regions","They have no root systems","They lack any animal life"], a:0},
+{q:"Coral reefs are built primarily by:", o:["Sponges and seaweeds","Coral polyps secreting calcium carbonate","Crustaceans and mollusks","Deep-sea vents"], a:1},
+{q:"The euphotic zone in the open ocean is:", o:["The dark deep-sea zone","The sunlit upper zone with photosynthesis","The twilight mesopelagic zone","The aphotic midnight zone"], a:1},
+{q:"Organisms in the aphotic zone often rely on:", o:["Photosynthesis","Chemosynthesis at hydrothermal vents","Abundant sunlight","High oxygen levels"], a:1},
+{q:"Camouflage behavior in fish is mainly used to:", o:["Attract mates","Protect from predators or hunt prey","Form schools","Signal aggression"], a:1},
+{q:"Advertising coloration in fish is used to:", o:["Hide from predators","Send signals to other animals (e.g., warning or courtship)","Blend with environment","Defend territory only"], a:1},
+{q:"The lateral line system in fish detects:", o:["Light and color","Sound, pressure changes, and water movement","Chemical odors","Temperature changes"], a:1},
+{q:"Homeostasis in fish refers to:", o:["Rapid growth","Maintaining internal balance despite external changes","Only feeding behavior","Only migration"], a:1},
 ];
 
 const APH_QUESTIONS = [
@@ -346,11 +400,6 @@ function showQuestion(){
  options.innerHTML=html;
  updateGrid();
 }
-
-document.getElementById("fatBtn").addEventListener("click", function () {
-    alert("I didn't see the +++ so I can't set the questions because I haven't seen the logic of how the questions are structured. Please don't be upset. If you have the FAT PDF with the +++ format, kindly send it to me on WhatsApp: 08081531407.");
-});
-
 
 function selectAnswer(i){ answers[current]=i; updateGrid(); }
 
