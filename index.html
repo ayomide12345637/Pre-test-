@@ -241,10 +241,10 @@
         <section id="payment-section" class="hidden">
             <h2>Unlock MEE101 Tactical</h2>
             <p style="text-align:center; font-size:1.1rem; margin:1.5rem 0;">
-                One-time access fee: <strong>₦500</strong>
+                One-time access fee: <strong>₦501000</strong>
             </p>
             <button class="green" style="width:100%; padding:1.1rem; font-size:1.2rem;" onclick="initiatePayment()">
-                Pay ₦500 Now
+                Pay ₦100 Now
             </button>
             <p style="text-align:center; margin-top:1.5rem; color:#555; font-size:0.95rem;">
                 Secure payment via Squad • One-time only
@@ -377,12 +377,12 @@ document.getElementById('admin-login-form').addEventListener('submit', e => {
     hideLoading();
 });
 
-// PAYMENT - Now ₦500
+// PAYMENT - Now ₦100
 function initiatePayment() {
     if (!currentUser) return alert("Please login first");
 
-    const amountNaira = 100;                    // ← Change back to 500 when needed
-    const amountKobo = amountNaira * 500;
+    const amountNaira = 100;                    // ← Change back to 100 when needed
+    const amountKobo = amountNaira * 100;
 
     const confirmMsg = `Confirm payment of ₦${amountNaira} to unlock MEE101 Tactical?\n\nOne-time access.`;
 
